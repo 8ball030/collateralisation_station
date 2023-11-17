@@ -13,7 +13,7 @@ describe("Collateral", function () {
 
     beforeEach(async function () {
         const Collateral = await ethers.getContractFactory("Collateral");
-        collateral = await Collateral.deploy(AddressZero);
+        collateral = await Collateral.deploy(AddressZero, AddressZero, AddressZero, AddressZero, AddressZero, AddressZero);
         await collateral.deployed();
 
         signers = await ethers.getSigners();
