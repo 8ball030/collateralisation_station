@@ -1,0 +1,5 @@
+node_modules
+.eslint*
+.npmrc
+.prettier*
+.svelte-kit
