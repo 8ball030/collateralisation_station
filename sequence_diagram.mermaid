@@ -1,0 +1,43 @@
+sequenceDiagram 
+    participant Bob
+    participant LoanAggregatorSmartContract
+    participant Alice
+    participant PWN
+    participant AAVE
+    participant LoanBotService
+    participant OlasDonationManagerContract
+    participant UniswapV2Pools
+    participant ChainlinkOracle
+
+    Bob ->> LoanAggregatorSmartContract: Deposit DAI for loans 
+    Charlie ->> AAVE: Deposit OLAS for loans 
+    AAVE ->> Charlie: aOLAS
+    Alice ->> PWN: Loan Request 
+    PWN ->> LoanBotService: Poll Loan Requests 
+    LoanBotService ->> LoanAggregatorSmartContract: Check Available Funds for loan 
+    LoanBotService ->> OlasDonationManagerContract: Check Nft Claimable OLAS 
+    LoanBotService ->> UniswapV2Pools: Get OLAS Weth price 
+    LoanBotService ->> ChainlinkOracle: Get Weth USD Price 
+    LoanBotService ->> LoanBotService: Analyze Data 
+    LoanBotService ->> PWN: Create Loan Offer 
+    Alice ->> PWN: Accept Offer 
+    Alice ->> PWN: TX NFT 
+
+    LoanAggregatorSmartContract ->> AAVE: Borrow OLAS
+    AAVE ->> LoanAggregatorSmartContract: OLAS 
+    LoanBotService ->> LoanAggregatorSmartContract: TX Loan To fulfill PWN 
+    LoanAggregatorSmartContract ->> PWN: OLAS 
+    PWN ->> Alice: GIB Loan 
+    Alice ->> PWN: Repays Loan 
+    PWN ->> LoanAggregatorSmartContract: Settle Loan + Fees
+    LoanAggregatorSmartContract ->> Bob: Collect DAI + Fees 
+    Alice ->> PWN: REFUSE TO Pay 
+    PWN ->>LoanAggregatorSmartContract: txs Alice's nft 
+    LoanBotService ->> LoanAggregatorSmartContract: proxy call to multisig
+    LoanAggregatorSmartContract ->> OlasDonationManagerContract: claim OLAS 
+    LoanBotService ->> LoanAggregatorSmartContract: Liquidate enough to repay Bob (Keeps the rest as OLAS) 
+    LoanBotService ->> AAVE: OLAS
+    AAVE ->> Charlie: OLAS + fees
+    LoanAggregatorSmartContract ->> Bob: Collect DAI + Fees
+    LoanAggregatorSmartContract ->> LoanBotServiceService: Collect
+
