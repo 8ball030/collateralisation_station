@@ -49,36 +49,38 @@ interface IServiceManager {
 interface IAave {
     /// @dev deposits The underlying asset into the reserve. A corresponding amount of the overlying asset (aTokens)
     /// is minted.
-    /// @param _reserve the address of the reserve
-    /// @param _amount the amount to be deposited
-    /// @param _referralCode integrators are assigned a referral code and can potentially receive rewards.
-    function deposit(address _reserve, uint256 _amount, uint16 _referralCode) external payable;
+    /// @param asset the address of the reserve
+    /// @param amount the amount to be deposited
+    /// @param onBehalfOf the address for which msg.sender is depositing.
+    /// @param referralCode integrators are assigned a referral code and can potentially receive rewards.
+    function deposit(address asset, uint256 amount, address onBehalfOf, uint16 referralCode) external payable;
 
     /// @dev Allows users to borrow a specific amount of the reserve currency, provided that the borrower
-    /// already deposited enough collateral.
-    /// @param _reserve the address of the reserve
-    /// @param _amount the amount to be borrowed
-    /// @param _interestRateMode the interest rate mode at which the user wants to borrow. Can be 0 (STABLE) or 1 (VARIABLE)
-    function borrow(address _reserve, uint256 _amount, uint256 _interestRateMode, uint16 _referralCode) external;
+    ///      already deposited enough collateral.
+    /// @param reserve the address of the reserve
+    /// @param amount the amount to be borrowed
+    /// @param interestRateMode the interest rate mode at which the user wants to borrow. Can be 0 (STABLE) or 1 (VARIABLE)
+    /// @param referralCode integrators are assigned a referral code and can potentially receive rewards.
+    /// @param onBehalfOf the address for which msg.sender is borrowing.
+    function borrow(
+        address reserve,
+        uint256 amount,
+        uint256 interestRateMode,
+        uint16 referralCode,
+        address onBehalfOf
+    ) external;
 
-    /// @dev calculates and returns the borrow balances of the user
-    /// @param _reserve the address of the reserve
-    /// @param _user the address of the user
-    /// @return the principal borrow balance, the compounded balance and the balance increase since the last borrow/repay/swap/rebalance
-    function getUserBorrowBalances(address _reserve, address _user) external view returns (uint256, uint256, uint256);
-
-    /// @param _reserve the address of the reserve for which the information is needed
-    /// @param _user the address of the user for which the information is needed
-    /// @return the origination fee for the user
-    function getUserOriginationFee(address _reserve, address _user) external view returns (uint256);
-
-    /// @notice repays a borrow on the specific reserve, for the specified amount (or for the whole amount, if uint256(-1) is specified).
-    /// @dev the target user is defined by _onBehalfOf. If there is no repayment on behalf of another account,
-    /// _onBehalfOf must be equal to msg.sender.
-    /// @param _reserve the address of the reserve on which the user borrowed
-    /// @param _amount the amount to repay, or uint256(-1) if the user wants to repay everything
-    /// @param _onBehalfOf the address for which msg.sender is repaying.
-    function repay(address _reserve, uint256 _amount, address payable _onBehalfOf) external;
+    /// @notice Repays a borrow on the specific reserve, for the specified amount (or for the whole amount, if type(uint256).max is specified).
+    /// @param asset the address of the reserve on which the user borrowed
+    /// @param amount the amount to repay, or type(uint256).max if the user wants to repay everything
+    /// @param interestRateMode the interest rate mode at which the user wants to borrow. Can be 0 (STABLE) or 1 (VARIABLE)
+    /// @param onBehalfOf the address for which msg.sender is repaying.
+    function repay(
+        address asset,
+        uint256 amount,
+        uint256 interestRateMode,
+        address onBehalfOf
+    ) external returns (uint256);
 }
 
 interface IClipperRouter {
@@ -86,11 +88,16 @@ interface IClipperRouter {
         external returns (uint256 returnAmount);
 }
 
+interface IWETH {
+    function deposit() external payable;
+    function withdraw(uint256 amount) external;
+}
+
 enum AssetStatus {
-    Unset,
-    Applied,
-    Collateralised,
-    Owned
+    LoanClosed,
+    QuoteProvided,
+    LoanTermsAccepted,
+    Liquidated
 }
 
 /// @dev Only `owner` has a privilege, but the `sender` was provided.
@@ -142,10 +149,10 @@ contract Collateral is ERC721TokenReceiver {
     event Deposit(address indexed sender, uint256 value);
     event TokenDeposit(address indexed sender, address indexed token, uint256 value);
     event OperatorUpdated(address indexed operator);
-    event Applied(address indexed borrower, address indexed registry, uint256 unitId);
-    event Collateralised(address indexed borrower, address indexed registry, uint256 unitId);
-    event Owned(address indexed borrower, address indexed registry, uint256 unitId);
-    event Unset(address indexed borrower, address indexed registry, uint256 unitId);
+    event QuoteProvided(address indexed borrower, address indexed registry, uint256 unitId);
+    event LoanTermsAccepted(address indexed borrower, address indexed registry, uint256 unitId);
+    event Liquidated(address indexed borrower, address indexed registry, uint256 unitId);
+    event LoanClosed(address indexed borrower, address indexed registry, uint256 unitId);
 
     // Version number
     string public constant VERSION = "1.0.0";
@@ -166,12 +173,14 @@ contract Collateral is ERC721TokenReceiver {
     address public immutable agentRegistry;
     // Service registry address
     address public immutable serviceRegistry;
-    // Aave lending pool core address
-    address public immutable aaveLindingPoolCore;
+    // Aave pool address
+    address public immutable aavePool;
     // Clipper router address
     address public immutable clipperRouter;
     // DAI address
     address public immutable dai;
+    // DAI address
+    address public immutable weth;
 
     // Service manager address
     address public serviceManager;
@@ -199,9 +208,10 @@ contract Collateral is ERC721TokenReceiver {
         address _serviceRegistry,
         address _serviceManager,
         address _dispenser,
-        address _aaveLindingPoolCore,
+        address _aavePool,
         address _clipperRouter,
-        address _dai
+        address _dai,
+        address _weth
     )
     {
         operator = _operator;
@@ -213,9 +223,10 @@ contract Collateral is ERC721TokenReceiver {
         serviceManager = _serviceManager;
         dispenser = _dispenser;
 
-        aaveLindingPoolCore = _aaveLindingPoolCore;
+        aavePool = _aavePool;
         clipperRouter = _clipperRouter;
         dai = _dai;
+        weth = _weth;
         owner = msg.sender;
     }
 
@@ -227,15 +238,16 @@ contract Collateral is ERC721TokenReceiver {
         uint256 adjustedDeposit = msg.value + fee;
         mapDepositorBalances[msg.sender] += adjustedDeposit;
         debt += adjustedDeposit;
+
         emit Deposit(msg.sender, msg.value);
     }
 
     function deposit(address token, uint256 amount) external payable {
         IERC20(token).transferFrom(msg.sender, address(this), amount);
 
-        // Exchange into ETH via 1inch
+        // Exchange into WETH via 1inch
         IERC20(token).approve(clipperRouter, amount);
-        uint256 amountETH = IClipperRouter(clipperRouter).clipperSwap(token, address(0), amount, 0);
+        uint256 amountETH = IClipperRouter(clipperRouter).clipperSwap(token, weth, amount, 0);
         if(amountETH < MIN_DEPOSIT) {
             revert LowDeposit(amountETH, MIN_DEPOSIT);
         }
@@ -296,12 +308,12 @@ contract Collateral is ERC721TokenReceiver {
     {
         mapVerifiedHashes[offerHash] = true;
 
-        _setStatus(borrower, registry, unitId, AssetStatus.Applied, AssetStatus.Unset);
+        _setStatus(borrower, registry, unitId, AssetStatus.QuoteProvided, AssetStatus.LoanClosed);
 
         // Approve DAI for the borrower (to be transferred by the PWN Vault)
         IERC20(dai).approve(borrower, unitPrice);
 
-        emit Applied(borrower, registry, unitId);
+        emit QuoteProvided(borrower, registry, unitId);
     }
 
     function setLoanTermsAccepted(
@@ -323,12 +335,14 @@ contract Collateral is ERC721TokenReceiver {
             revert InsufficientBalance(depositValue, balance);
         }
         // TODO install hook such that portfolio position is hedged using a post tx hook. HERE we just borrow.
-        IAave(aaveLindingPoolCore).deposit{value: unitPriceETH}(ETH_TOKEN_ADDRESS, unitPriceETH, 0);
-        IAave(aaveLindingPoolCore).borrow(dai, unitPrice, 0, 0);
+        IWETH(weth).deposit{value: unitPriceETH}();
+        IERC20(weth).approve(aavePool, unitPriceETH);
+        IAave(aavePool).deposit(ETH_TOKEN_ADDRESS, unitPriceETH, address(this), 0);
+        IAave(aavePool).borrow(dai, unitPrice, 0, 0, address(this));
 
-        _setStatus(borrower, registry, unitId, AssetStatus.Collateralised, AssetStatus.Applied);
+        _setStatus(borrower, registry, unitId, AssetStatus.LoanTermsAccepted, AssetStatus.QuoteProvided);
 
-        emit Collateralised(borrower, registry, unitId);
+        emit LoanTermsAccepted(borrower, registry, unitId);
     }
 
     function setLiquidation(address borrower, address registry, uint256 unitId) external {
@@ -336,17 +350,16 @@ contract Collateral is ERC721TokenReceiver {
         // TODO: The service is supposed to have a correct termination skill such that after the termination the contract becomes the service multisig owner
         IServiceManager(serviceManager).terminate(unitId);
 
-        // TODO: liquidate the loan in Aave as the borrower was not able to repay
-        (, uint256 compoundedBorrowBalance, ) = IAave(aaveLindingPoolCore).getUserBorrowBalances(dai, address(this));
-        compoundedBorrowBalance += IAave(aaveLindingPoolCore).getUserOriginationFee(dai, address(this));
-        // Repay Aave loan
-        IERC20(dai).approve(aaveLindingPoolCore, compoundedBorrowBalance);
-        IAave(aaveLindingPoolCore).repay(dai, compoundedBorrowBalance, payable(address(this)));
+        // Repay Aave loan as the borrower was not able to repay
+        // TODO: calculate the exact amount of DAI for repayment
+        IERC20(dai).approve(aavePool, type(uint256).max);
+        uint256 paybackAmount = IAave(aavePool).repay(dai, type(uint256).max, 0, address(this));
+        IWETH(weth).withdraw(paybackAmount);
 
-        // Update the collateral asset status to Owned
-        _setStatus(borrower, registry, unitId, AssetStatus.Owned, AssetStatus.Collateralised);
+        // Update the collateral asset status to Liquidated
+        _setStatus(borrower, registry, unitId, AssetStatus.Liquidated, AssetStatus.LoanTermsAccepted);
 
-        emit Owned(borrower, registry, unitId);
+        emit Liquidated(borrower, registry, unitId);
     }
 
     function setLoanClosed(address borrower, address registry, uint256 unitId) external {
@@ -357,23 +370,22 @@ contract Collateral is ERC721TokenReceiver {
 
         bytes32 borrowerHash = keccak256(abi.encode(borrower, registry, unitId));
         AssetStatus status = mapBorrowerHashStatuses[borrowerHash];
-        if (status == AssetStatus.Owned) {
+        if (status == AssetStatus.Liquidated) {
             revert WrongAssetStatus(registry, unitId, status);
         }
 
-        if(status == AssetStatus.Collateralised) {
+        if(status == AssetStatus.LoanTermsAccepted) {
             // TODO install hook such that the position of the portfolio is Rehedged using a post tx hook. HERE we just repay.
             // TODO: liquidate the loan in Aave as the borrower was not able to repay
-            (, uint256 compoundedBorrowBalance, ) = IAave(aaveLindingPoolCore).getUserBorrowBalances(dai, address(this));
-            compoundedBorrowBalance += IAave(aaveLindingPoolCore).getUserOriginationFee(dai, address(this));
-            // Repay Aave loan, if AssetStatus.Collateralised -> AssetStatus.Unset
-            IERC20(dai).approve(aaveLindingPoolCore, compoundedBorrowBalance);
-            IAave(aaveLindingPoolCore).repay(dai, compoundedBorrowBalance, payable(address(this)));
+            // Repay Aave loan, if AssetStatus.LoanTermsAccepted -> AssetStatus.LoanClosed
+            IERC20(dai).approve(aavePool, type(uint256).max);
+            uint256 paybackAmount = IAave(aavePool).repay(dai, type(uint256).max, 0, address(this));
+            IWETH(weth).withdraw(paybackAmount);
         }
 
-        mapBorrowerHashStatuses[borrowerHash] = AssetStatus.Unset;
+        mapBorrowerHashStatuses[borrowerHash] = AssetStatus.LoanClosed;
 
-        emit Unset(borrower, registry, unitId);
+        emit LoanClosed(borrower, registry, unitId);
     }
     
     function liquidateDefaultedPosition(address borrower, address registry, uint256 unitId, bytes memory data) external {
@@ -384,7 +396,7 @@ contract Collateral is ERC721TokenReceiver {
 
         bytes32 borrowerHash = keccak256(abi.encode(borrower, registry, unitId));
         AssetStatus status = mapBorrowerHashStatuses[borrowerHash];
-        if (status != AssetStatus.Owned) {
+        if (status != AssetStatus.Liquidated) {
             revert WrongAssetStatus(registry, unitId, status);
         }
 
