@@ -17,11 +17,10 @@
 #
 # ------------------------------------------------------------------------------
 
-"""Test the handlers.py module of the Composed."""
+"""Test the dialogues.py module of the Composed."""
 
-import packages.zarathustra.skills.collatralisation_station_chained_abci.handlers  # noqa
+import packages.zarathustra.skills.collateralisation_station_chained_abci.dialogues  # noqa
 
 
 def test_import() -> None:
-    """Test that the 'handlers.py' of the Composed can be imported."""
-
+    """Test that the 'dialogues.py' of the Composed can be imported."""

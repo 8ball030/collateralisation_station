@@ -31,7 +31,7 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     BaseBehaviour,
     make_degenerate_behaviour,
 )
-from packages.zarathustra.skills.collatralisation_station_chained_abci.behaviours import (
+from packages.zarathustra.skills.collateralisation_station_chained_abci.behaviours import (
     ComposedBaseBehaviour,
     ComposedRoundBehaviour,
     CheckAvailableFundsBehaviour,
@@ -58,7 +58,7 @@ from packages.zarathustra.skills.collatralisation_station_chained_abci.behaviour
     SynchronizeLateMessagesBehaviour,
     ValidateTransactionBehaviour,
 )
-from packages.zarathustra.skills.collatralisation_station_chained_abci.rounds import (
+from packages.zarathustra.skills.collateralisation_station_chained_abci.rounds import (
     SynchronizedData,
     DegenerateRound,
     Event,

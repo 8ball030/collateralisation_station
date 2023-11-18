@@ -17,16 +17,11 @@
 #
 # ------------------------------------------------------------------------------
 
-"""Test the models.py module of the Composed."""
+"""Test the handlers.py module of the Composed."""
 
-from packages.valory.skills.abstract_round_abci.test_tools.base import DummyContext
-from packages.zarathustra.skills.collatralisation_station_chained_abci.models import SharedState
+import packages.zarathustra.skills.collateralisation_station_chained_abci.handlers  # noqa
 
 
-class TestSharedState:
-    """Test SharedState of Composed."""
-
-    def test_initialization(self) -> None:
-        """Test initialization."""
-        SharedState(name="", skill_context=DummyContext())
+def test_import() -> None:
+    """Test that the 'handlers.py' of the Composed can be imported."""
 

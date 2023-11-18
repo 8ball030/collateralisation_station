@@ -24,7 +24,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from packages.zarathustra.skills.collatralisation_station_chained_abci.payloads import (
+from packages.zarathustra.skills.collateralisation_station_chained_abci.payloads import (
     BaseTxPayload,
     CheckAvailableFundsPayload,
     CheckForLoanRequestsPayload,

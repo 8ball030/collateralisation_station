@@ -24,7 +24,7 @@ from dataclasses import dataclass, field
 
 import pytest
 
-from packages.zarathustra.skills.collatralisation_station_chained_abci.payloads import (
+from packages.zarathustra.skills.collateralisation_station_chained_abci.payloads import (
     CheckAvailableFundsPayload,
     CheckForLoanRequestsPayload,
     CheckLateTxHashesPayload,
@@ -49,7 +49,7 @@ from packages.zarathustra.skills.collatralisation_station_chained_abci.payloads 
     SynchronizeLateMessagesPayload,
     ValidateTransactionPayload,
 )
-from packages.zarathustra.skills.collatralisation_station_chained_abci.rounds import (
+from packages.zarathustra.skills.collateralisation_station_chained_abci.rounds import (
     AbstractRound,
     Event,
     SynchronizedData,

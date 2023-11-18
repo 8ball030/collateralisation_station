@@ -28,8 +28,8 @@ from packages.valory.skills.abstract_round_abci.behaviours import (
     BaseBehaviour,
 )
 
-from packages.zarathustra.skills.collatralisation_station_chained_abci.models import Params
-from packages.zarathustra.skills.collatralisation_station_chained_abci.rounds import (
+from packages.zarathustra.skills.collateralisation_station_chained_abci.models import Params
+from packages.zarathustra.skills.collateralisation_station_chained_abci.rounds import (
     SynchronizedData,
     ComposedAbciApp,
     CheckAvailableFundsRound,
@@ -56,7 +56,7 @@ from packages.zarathustra.skills.collatralisation_station_chained_abci.rounds im
     SynchronizeLateMessagesRound,
     ValidateTransactionRound,
 )
-from packages.zarathustra.skills.collatralisation_station_chained_abci.rounds import (
+from packages.zarathustra.skills.collateralisation_station_chained_abci.rounds import (
     CheckAvailableFundsPayload,
     CheckForLoanRequestsPayload,
     CheckLateTxHashesPayload,
@@ -84,7 +84,7 @@ from packages.zarathustra.skills.collatralisation_station_chained_abci.rounds im
 
 
 class ComposedBaseBehaviour(BaseBehaviour, ABC):
-    """Base behaviour for the collatralisation_station_chained_abci skill."""
+    """Base behaviour for the collateralisation_station_chained_abci skill."""
 
     @property
     def synchronized_data(self) -> SynchronizedData:

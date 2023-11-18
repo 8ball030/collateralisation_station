@@ -17,10 +17,25 @@
 #
 # ------------------------------------------------------------------------------
 
-"""Test the dialogues.py module of the Composed."""
+"""This module contains the shared state for the abci skill of ComposedAbciApp."""
 
-import packages.zarathustra.skills.collatralisation_station_chained_abci.dialogues  # noqa
+from packages.valory.skills.abstract_round_abci.models import BaseParams
+from packages.valory.skills.abstract_round_abci.models import (
+    BenchmarkTool as BaseBenchmarkTool,
+)
+from packages.valory.skills.abstract_round_abci.models import Requests as BaseRequests
+from packages.valory.skills.abstract_round_abci.models import (
+    SharedState as BaseSharedState,
+)
+from packages.zarathustra.skills.collateralisation_station_chained_abci.rounds import ComposedAbciApp
 
 
-def test_import() -> None:
-    """Test that the 'dialogues.py' of the Composed can be imported."""
+class SharedState(BaseSharedState):
+    """Keep the current shared state of the skill."""
+
+    abci_app_cls = ComposedAbciApp
+
+
+Params = BaseParams
+Requests = BaseRequests
+BenchmarkTool = BaseBenchmarkTool

@@ -17,25 +17,16 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the shared state for the abci skill of ComposedAbciApp."""
+"""Test the models.py module of the Composed."""
 
-from packages.valory.skills.abstract_round_abci.models import BaseParams
-from packages.valory.skills.abstract_round_abci.models import (
-    BenchmarkTool as BaseBenchmarkTool,
-)
-from packages.valory.skills.abstract_round_abci.models import Requests as BaseRequests
-from packages.valory.skills.abstract_round_abci.models import (
-    SharedState as BaseSharedState,
-)
-from packages.zarathustra.skills.collatralisation_station_chained_abci.rounds import ComposedAbciApp
+from packages.valory.skills.abstract_round_abci.test_tools.base import DummyContext
+from packages.zarathustra.skills.collateralisation_station_chained_abci.models import SharedState
 
 
-class SharedState(BaseSharedState):
-    """Keep the current shared state of the skill."""
+class TestSharedState:
+    """Test SharedState of Composed."""
 
-    abci_app_cls = ComposedAbciApp
+    def test_initialization(self) -> None:
+        """Test initialization."""
+        SharedState(name="", skill_context=DummyContext())
 
-
-Params = BaseParams
-Requests = BaseRequests
-BenchmarkTool = BaseBenchmarkTool

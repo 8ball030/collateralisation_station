@@ -32,7 +32,7 @@ from packages.valory.skills.abstract_round_abci.base import (
     EventToTimeout,
     get_name,
 )
-from packages.ezarathustra.skills.collateralisation_station_abci.payloads import (
+from packages.zarathustra.skills.collateralisation_station_abci.payloads import (
     CheckAvailableFundsPayload,
     CheckForLoanRequestsPayload,
     CheckOutstandingLoansPayload,

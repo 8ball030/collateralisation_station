@@ -1,4 +1,4 @@
-name: collatralisation_station_chained_abci
+name: collateralisation_station_chained_abci
 author: zarathustra
 version: 0.1.0
 type: skill
@@ -6,26 +6,27 @@ description: The scaffold skill is a scaffold for your own skill implementation.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  __init__.py: bafybeifwjpigqx65k4a2lmqa726jppt255wnfra3qcly6mg65f4esi7cam
-  behaviours.py: bafybeiddwhimeyme6wvg6xuyonaortnh3b5tbftxlhf5bjh567v2jrg5xm
+  __init__.py: bafybeif7hvkrhmc6znpvjcgi74verpqozavhfk3ovca4akojglop5vlyuy
+  behaviours.py: bafybeib6xxl4egcri2bzxvooxnftcxwzhgez6cskhnqimebvsumwqf5h6a
   composition.py: bafybeiddmwnzn767bkhz4bi3dl6wy7iad6levzyoohyzwambqv6wazsqfa
   dialogues.py: bafybeibhwssyf5cwpdknnrcokcj6gnriyrmysaqypoisfxab7jvbqb6yka
   fsm_specification.yaml: bafybeif23ebidpg4jhfqcs3ygdirki3ehghvv5s5ltftkn3tmrvrjvkxgm
   handlers.py: bafybeibxc5ivan4wyb72tnxejd7wxwc2spvktuidl2caux3lfq6wpokbim
-  models.py: bafybeifwiaqm66z4qi5sefgzke3ue4maa3sgttrctfpmpr2orhwt2knggq
+  models.py: bafybeid3wjbwjafa64iacs3ffuugwolxz6rwhulgfrkanbadxwcn3azsjq
   tests/__init__.py: bafybeic3534aro4pdtsdcuxywzlgkccczx2elhnwisiq3r6okvnrdu4aia
-  tests/test_behaviours.py: bafybeifdg4wmx2tgrpza4jyycicix37u2i2oh2unmtuvtw5co77e7jtm2a
-  tests/test_dialogues.py: bafybeiefg5akddmlnojkidpye7ms5oxjigsg4hh2u5zt3xoddsn64lkp3u
-  tests/test_handlers.py: bafybeiaswaiogglhjxuwi3fwbvx4y6yzelqhpp4wnb27bss567bultl4ei
-  tests/test_models.py: bafybeidtkbq25jjtyy7ikxqwqbid7wctucggyrrakfvo74om7oq3apwukq
-  tests/test_payloads.py: bafybeifm4bqf2ywfhmob3iwb3czpzioemcurzja7kw2lu5sdxwtmil2doy
-  tests/test_rounds.py: bafybeiekt2lsmappxlzjvd3tojkjyrga6kawak5qukco7k2xdvgmje77py
+  tests/test_behaviours.py: bafybeibskzooqdwp4tcfqyefzviah542hq63c66qgniv6hjctqma7lkwfu
+  tests/test_dialogues.py: bafybeibcwj6lecqywucgeycdf3647foww3k63sqfae575nwclxl2aplfli
+  tests/test_handlers.py: bafybeiessvkmbttxt2xqxpxa2g4zxankrltffzno5iiokmyrpiai3lddbe
+  tests/test_models.py: bafybeicdregkw2fmgxl42lcxrhbl4w54wsqudl4eskigvackt5l5ury5jm
+  tests/test_payloads.py: bafybeid6yxodzxj2zpkavewyas2guyjjtjmr74zoqb7nkmi2efihkwgkqq
+  tests/test_rounds.py: bafybeialtojjvskk4zu47bqvozrldmnudkvlbj7napxtdie3ezzoqti5oy
 fingerprint_ignore_patterns: []
 connections: []
 contracts: []
 protocols: []
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeifoqz4fs63afcuzf4zjdyn2qu6satezs6kdiakzh7baphzxppeeg4
+- zarathustra/collateralisation_station_abci:0.1.0:bafybeifc2yv6lpso2nnukhurhk36ndptsfz4lc7qav6sw3sz5xtyhf6uqe
 behaviours:
   main:
     args: {}

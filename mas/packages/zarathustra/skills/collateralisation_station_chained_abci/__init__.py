@@ -22,4 +22,4 @@
 from aea.configurations.base import PublicId
 
 
-PUBLIC_ID = PublicId.from_str("zarathustra/collatralisation_station_chained_abci:0.1.0")
+PUBLIC_ID = PublicId.from_str("zarathustra/collateralisation_station_chained_abci:0.1.0")
