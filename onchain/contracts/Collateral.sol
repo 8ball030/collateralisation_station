@@ -134,6 +134,9 @@ error WrongServiceState(uint256 serviceId, uint8 state);
 /// @param data Payload data.
 error MultisigCallFailed(address multisig, bytes data);
 
+/// @dev Deposit low then threshold
+error LowDeposit(uint256 amount, uint256 min_amount);
+
 /// @title Collateral - Smart contract for managing registry collaterals
 contract Collateral is ERC721TokenReceiver {
     event Deposit(address indexed sender, uint256 value);
@@ -150,6 +153,8 @@ contract Collateral is ERC721TokenReceiver {
     uint256 public constant DEFAULT_BORROWER_FEE = 1 ether;
     // Default depositor fee
     uint256 public constant DEFAULT_DEPOSITOR_FEE = 1;
+    // Min deposit
+    uint256 public constant MIN_DEPOSIT = 1 ether;
     // ETH address
     address public constant ETH_TOKEN_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
 
@@ -211,6 +216,9 @@ contract Collateral is ERC721TokenReceiver {
     }
 
     receive() external payable {
+        if(msg.value < MIN_DEPOSIT) {
+            revert LowDeposit(msg.value, MIN_DEPOSIT);
+        }
         uint256 fee = (msg.value * DEFAULT_DEPOSITOR_FEE) / 100;
         uint256 adjustedDeposit = msg.value + fee;
         mapDepositorBalances[msg.sender] += adjustedDeposit;
@@ -224,6 +232,9 @@ contract Collateral is ERC721TokenReceiver {
         // Exchange into ETH via 1inch
         IERC20(token).approve(clipperRouter, amount);
         uint256 amountETH = IClipperRouter(clipperRouter).clipperSwap(token, address(0), amount, 0);
+        if(amountETH < MIN_DEPOSIT) {
+            revert LowDeposit(amountETH, MIN_DEPOSIT);
+        }
 
         // Record the depositor value and fee in ETH
         uint256 fee = (amountETH * DEFAULT_DEPOSITOR_FEE) / 100;
@@ -327,6 +338,15 @@ contract Collateral is ERC721TokenReceiver {
         AssetStatus status = mapBorrowerHashStatuses[borrowerHash];
         if (status == AssetStatus.Owned) {
             revert WrongAssetStatus(registry, unitId, status);
+        }
+
+        if(status == AssetStatus.Collateralised) {
+            // TODO: liquidate the loan in Aave as the borrower was not able to repay
+            (, uint256 compoundedBorrowBalance, ) = IAave(aaveLindingPoolCore).getUserBorrowBalances(dai, address(this));
+            compoundedBorrowBalance += IAave(aaveLindingPoolCore).getUserOriginationFee(dai, address(this));
+            // Repay Aave loan, if AssetStatus.Collateralised -> AssetStatus.Unset
+            IERC20(dai).approve(aaveLindingPoolCore, compoundedBorrowBalance);
+            IAave(aaveLindingPoolCore).repay(dai, compoundedBorrowBalance, payable(address(this)));
         }
 
         mapBorrowerHashStatuses[borrowerHash] = AssetStatus.Unset;
