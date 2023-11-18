@@ -157,6 +157,8 @@ contract Collateral is ERC721TokenReceiver {
     uint256 public constant MIN_DEPOSIT = 1 ether;
     // ETH address
     address public constant ETH_TOKEN_ADDRESS = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
+    // Value for the contract signature validation: bytes4(keccak256("isValidSignature(bytes32,bytes)")
+    bytes4 constant internal MAGIC_VALUE = 0x1626ba7e;
 
     // Component registry address
     address public immutable componentRegistry;
@@ -185,6 +187,8 @@ contract Collateral is ERC721TokenReceiver {
     mapping (address => uint256) public mapDepositorBalances;
     // Map of keccak256(borrower address, registry contract address, unit Id) => status
     mapping (bytes32 => AssetStatus) public mapBorrowerHashStatuses;
+    // Map of verified offer hashes
+    mapping (bytes32 => bool) public mapVerifiedHashes;
 
     /// @dev Collateral constructor.
     /// @param _operator Agent operator multisig address.
@@ -282,14 +286,32 @@ contract Collateral is ERC721TokenReceiver {
         mapBorrowerHashStatuses[borrowerHash] = actual;
     }
 
-    function setQuoteProvided(address borrower, address registry, uint256 unitId, bytes32 signature_hash) external {
+    function setQuoteProvided(
+        address borrower,
+        address registry,
+        uint256 unitId,
+        uint256 unitPrice,
+        bytes32 offerHash
+    ) external
+    {
+        mapVerifiedHashes[offerHash] = true;
+
         _setStatus(borrower, registry, unitId, AssetStatus.Applied, AssetStatus.Unset);
 
+        // Approve DAI for the borrower (to be transferred by the PWN Vault)
         IERC20(dai).approve(borrower, unitPrice);
+
         emit Applied(borrower, registry, unitId);
     }
 
-    function setLoanTermsAccepted(address borrower, address registry, uint256 unitId, uint256 unitPrice, uint256 unitPriceETH) external {
+    function setLoanTermsAccepted(
+        address borrower,
+        address registry,
+        uint256 unitId,
+        uint256 unitPrice,
+        uint256 unitPriceETH
+    ) external
+    {
         // TODO: Choose between a native token and another ERC20 token to deposit to Aave
         // TODO: Right now we are going to deposit a native token only
         // TODO: account for the slippage between unitPrice and unitPriceETH
@@ -431,8 +453,22 @@ contract Collateral is ERC721TokenReceiver {
         }
     }
 
+    /// @dev Should return whether the signature provided is valid for the provided hash.
+    /// @notice MUST return the bytes4 magic value 0x1626ba7e when function passes.
+    /// @param hash Hash of the data to be verified, earlier pre-approved by the multisig operator.
+    /// @return magicValue bytes4 magic value.
+    function isValidSignature(bytes32 hash, bytes memory) external view returns (bytes4 magicValue) {
+        if (mapVerifiedHashes[hash]) {
+            magicValue = MAGIC_VALUE;
+        }
+    }
+
     function profit() external view returns (int256) {
         return int256(address(this).balance) - int256(debt);
+    }
+
+    function getBorrowerHash(address borrower, address registry, uint256 unitId) external pure returns (bytes32) {
+        return keccak256(abi.encode(borrower, registry, unitId));
     }
 
     // TODO: Aave loan health monitoring
