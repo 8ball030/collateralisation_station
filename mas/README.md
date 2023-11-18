@@ -1,12 +1,33 @@
 # Collateralisation Station
 
+```mermaid
+flowchart TD
+  subgraph CollateralisationStationAbciApp
+    PostTransactionRound ---> |DONE| PrepareUpdateRound
+    PrepareUpdateRound ---> |DONE| PrepareUpdateTxSubmissionRound
+    PrepareUpdateRound ---> |POST_UPDATE| CheckOutstandingLoansRound
+    InitialiseRound ---> |DONE| CheckOutstandingLoansRound
+    CheckOutstandingLoansRound ---> |LOAN_NOT_PAID| PrepareLiquidationRound
+    PrepareLiquidationRound ---> |DONE| PrepareLiquidationTxSubmissionRound
+    CheckOutstandingLoansRound ---> |DONE| CheckForLoanRequestsRound
+
+    CheckForLoanRequestsRound ---> |ALREADY_OFFERED| FinishRound
+    CheckForLoanRequestsRound ---> |LOAN_REQUESTS_EXIST| CheckAvailableFundsRound 
+    CheckForLoanRequestsRound ---> |NO_LOANS_REQUESTS| FinishRound
+    CheckAvailableFundsRound ---> |INSUFFICIENT_FUNDS| FinishRound
+    CheckAvailableFundsRound ---> |SUFFICIENT_FUNDS| CheckValueOfCollateralRound
+    CheckValueOfCollateralRound ---> |WORTHLESS_NFT| FinishRound
+    CheckValueOfCollateralRound ---> |OFFERABLE_NFT| PrepareLoanOfferRound
+    PrepareLoanOfferRound ---> |DONE| PrepareOfferTxSubmissionRound
+  end
+```
+
 
 ## Table of Contents
 
 - [Collateralisation Station](#collateralisation-station)
   - [Table of Contents](#table-of-contents)
   - [Getting Started](#getting-started)
-    - [Installation](#installation)
     - [Setup for Development](#setup-for-development)
   - [Commands](#commands)
     - [Formatting](#formatting)
@@ -17,14 +38,6 @@
   - [License](#license)
 
 ## Getting Started
-
-### Installation
-
-Install `collateralisation_station` with pip:
-
-```shell
-pip install collateralisation_station
-```
 
 ### Setup for Development
 
