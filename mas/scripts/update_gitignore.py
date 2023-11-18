@@ -15,7 +15,7 @@ def get_repo_root():
 def get_new_package_ignores():
     packages_path = get_repo_root() / "mas" / "packages" / "packages.json"
     packages = yaml.safe_load(packages_path.read_text(encoding="utf-8"))
-    dev_ids = [Path(p).parts[:-1] for p in packages["dev"]]
+    dev_ids = [Path(p).parts[:-1] for p in packages["third_party"]]
     for component_type, author, name in dev_ids:
         yield f"{author}/{component_type}s/{name}"
 
@@ -23,17 +23,15 @@ def get_new_package_ignores():
 def update_gitignore():
     gitignore_path = get_repo_root() / ".gitignore"
     new_lines = []
-    found = False
+    found = done = False
     for line in gitignore_path.read_text().splitlines():
-        if found:
-            new_lines.append("!mas/packages/packages.json")
-            for item in get_new_package_ignores():
-                new_lines.append(f"!mas/packages/{item}")
-            found = False
-        if line.startswith("mas/packages/*"):
+        if line.startswith("mas/packages/"):
             found = True
-        elif line.startswith("!mas/packages/"):
             continue
+        elif found and not done:
+            for item in get_new_package_ignores():
+                new_lines.append(f"mas/packages/{item}")
+            done = True
         new_lines.append(line)
     gitignore_path.write_text("\n".join(new_lines) + "\n")
 
