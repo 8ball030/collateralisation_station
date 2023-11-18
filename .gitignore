@@ -4,6 +4,20 @@ coverage
 coverage.json
 .idea
 
+# python
+__pycache__
+
+# aea / autonomy
+*private_key*
+keys.json
+
+packages/*
+!packages/eightballer
+!packages/zarathustra
+
+agent/
+service/
+
 # Hardhat files
 artifacts
 cache
