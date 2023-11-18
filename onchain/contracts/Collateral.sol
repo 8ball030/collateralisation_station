@@ -24,6 +24,16 @@ interface IServiceManager {
     function terminate(uint256 serviceId) external returns (bool success, uint256 refund);
 }
 
+interface IAave {
+    /// @notice repays a borrow on the specific reserve, for the specified amount (or for the whole amount, if uint256(-1) is specified).
+    /// @dev the target user is defined by _onBehalfOf. If there is no repayment on behalf of another account,
+    /// _onBehalfOf must be equal to msg.sender.
+    /// @param _reserve the address of the reserve on which the user borrowed
+    /// @param _amount the amount to repay, or uint256(-1) if the user wants to repay everything
+    /// @param _onBehalfOf the address for which msg.sender is repaying.
+    function repay(address _reserve, uint256 _amount, address payable _onBehalfOf) external;
+}
+
 enum AssetStatus {
     Unset,
     Applied,
@@ -158,6 +168,10 @@ contract Collateral is ERC721TokenReceiver {
     }
 
     function setOwned(address borrower, address registry, uint256 unitId) external {
+        // TODO: terminate the service and withdraw all the specified funds from its multisig (info gathered by the operator)
+        // TODO: The service is supposed to have a correct termination skill such that after the termination the contract becomes the service multisig owner
+        IServiceManager(serviceManager).terminate(unitId);
+
         // TODO: liquidate the loan in Aave as the borrower was not able to repay
 
         _setStatus(borrower, registry, unitId, AssetStatus.Owned, AssetStatus.Collateralised);
@@ -210,10 +224,8 @@ contract Collateral is ERC721TokenReceiver {
             unitIds[0] = unitId;
             IDispenser(dispenser).claimOwnerIncentives(unitTypes, unitIds);
         } else if (registry == serviceRegistry) {
-            // TODO: terminate the service and withdraw all the specified funds from its multisig (info gathered by the operator)
-            // TODO: The service is supposed to have a correct termination skill such that after the termination the contract becomes the service multisig owner
-            IServiceManager(serviceManager).terminate(unitId);
-            // TODO: withdraw funds from the multisig parsing the data
+            // TODO: assuming that the service is fully unbonded and this contract is the owner of the service multisig
+            // TODO: withdraw funds from the multisig parsing the data, capitalize on any other assets like NFTs
         }
         // TODO: sell the unit
     }
