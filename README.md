@@ -1,18 +1,6 @@
 # Collateralisation Station
 
-Collateralisation Station functions at its core by leveraging autonomous agent services, represented as an NFT, as collateral to access liquidity without requiring the sale of the NFT. 
-The LoanBotService, an Autonolas multi-agent system, check the amount of claimable OLAS on the service NFT, as well as the current wETH price of OLAS on Uniswap, and the current price of wETH in USD using a Chainlink oracle.
-This data is then analyzed and a loan offer is created and forwarded to PWN.
-Alice can then assess the offer, and if she accepts to offer, her NFT will be transfered to the PWN smart contract, and she receives her loan from PWN.
-She can then either repay the loan via PWN, which will subsequently be settled on the LoanAggregatorSmartContract, and her NFT is returned.
-
-
-The owner of this NFT, Alice, requests a quote for her NFT using PWN. PWN forw
-evaluating their value in OLAS tokens. Users, exemplified by Alice, can accept these evaluations, initiating OLAS borrows.
-
-1. First, bob deposits tokens (DAI) to the LoanAggregatorSmartContract
-2. Then, Alice can make a loan request at PWN using her NFT as collateral
-3. The request is forwarded to the LoanBotService, which check the available funds on the NFT
+Trustless liquidity for your autonomous agent service NFTs.
 
 ## Front-end
 
