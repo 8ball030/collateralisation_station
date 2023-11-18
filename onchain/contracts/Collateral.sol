@@ -282,13 +282,15 @@ contract Collateral is ERC721TokenReceiver {
         mapBorrowerHashStatuses[borrowerHash] = actual;
     }
 
-    function setApplied(address borrower, address registry, uint256 unitId) external {
+    function setQuoteProvided(address borrower, address registry, uint256 unitId) external {
         _setStatus(borrower, registry, unitId, AssetStatus.Applied, AssetStatus.Unset);
 
+        // TODO approve to PWN
+        IERC20(dai).transfer(borrower, unitPrice);
         emit Applied(borrower, registry, unitId);
     }
 
-    function setCollateralised(address borrower, address registry, uint256 unitId, uint256 unitPrice, uint256 unitPriceETH) external {
+    function setLoanTermsAccepted(address borrower, address registry, uint256 unitId, uint256 unitPrice, uint256 unitPriceETH) external {
         // TODO: Choose between a native token and another ERC20 token to deposit to Aave
         // TODO: Right now we are going to deposit a native token only
         // TODO: account for the slippage between unitPrice and unitPriceETH
@@ -299,18 +301,16 @@ contract Collateral is ERC721TokenReceiver {
         if (depositValue > balance) {
             revert InsufficientBalance(depositValue, balance);
         }
+        // TODO install hook such that portfolio position is hedged using a post tx hook. HERE we just borrow.
         IAave(aaveLindingPoolCore).deposit{value: unitPriceETH}(ETH_TOKEN_ADDRESS, unitPriceETH, 0);
         IAave(aaveLindingPoolCore).borrow(dai, unitPrice, 0, 0);
-
-        // Send DAI to the borrower
-        IERC20(dai).transfer(borrower, unitPrice);
 
         _setStatus(borrower, registry, unitId, AssetStatus.Collateralised, AssetStatus.Applied);
 
         emit Collateralised(borrower, registry, unitId);
     }
 
-    function setOwned(address borrower, address registry, uint256 unitId) external {
+    function setLiquidation(address borrower, address registry, uint256 unitId) external {
         // TODO: terminate the service and withdraw all the specified funds from its multisig (info gathered by the operator)
         // TODO: The service is supposed to have a correct termination skill such that after the termination the contract becomes the service multisig owner
         IServiceManager(serviceManager).terminate(unitId);
@@ -328,7 +328,7 @@ contract Collateral is ERC721TokenReceiver {
         emit Owned(borrower, registry, unitId);
     }
 
-    function setUnset(address borrower, address registry, uint256 unitId) external {
+    function setLoanClosed(address borrower, address registry, uint256 unitId) external {
         // Check the function access
         if (msg.sender != operator) {
             revert OperatorOnly(msg.sender, operator);
@@ -341,6 +341,7 @@ contract Collateral is ERC721TokenReceiver {
         }
 
         if(status == AssetStatus.Collateralised) {
+            // TODO install hook such that the position of the portfolio is Rehedged using a post tx hook. HERE we just repay.
             // TODO: liquidate the loan in Aave as the borrower was not able to repay
             (, uint256 compoundedBorrowBalance, ) = IAave(aaveLindingPoolCore).getUserBorrowBalances(dai, address(this));
             compoundedBorrowBalance += IAave(aaveLindingPoolCore).getUserOriginationFee(dai, address(this));
@@ -354,7 +355,7 @@ contract Collateral is ERC721TokenReceiver {
         emit Unset(borrower, registry, unitId);
     }
     
-    function sellOwnedUnit(address borrower, address registry, uint256 unitId, bytes memory data) external {
+    function liquidateDefaultedPosition(address borrower, address registry, uint256 unitId, bytes memory data) external {
         // Check the function access
         if (msg.sender != operator) {
             revert OperatorOnly(msg.sender, operator);
