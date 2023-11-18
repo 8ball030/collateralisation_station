@@ -1,7 +1,8 @@
 {
     "dev": {
-        "skill/zarathustra/collateralisation_station_abci/0.1.0": "bafybeidelve2gequojc2qkmvlvjof5dvg7s2aq5r7ehtdsz55of3lmkkjq",
-        "agent/zarathustra/collateralisation_station/0.1.0": "bafybeiaa27adnduvuhzl63vfaclfbizzqu2wgt5qcov6pqzktob33kyx7a"
+        "skill/zarathustra/collateralisation_station_abci/0.1.0": "bafybeihu5cyniuy5n4c7ashoq6tulzvfirc56chbbwjvxj2rbcehnpoobe",
+        "agent/zarathustra/collateralisation_station/0.1.0": "bafybeigt57nxnrh4raencwklunzoltkerrczi3tjuhbfnhqxbj2wvbnhly",
+        "skill/zarathustra/collatralisation_station_chained_abci/0.1.0": "bafybeihzwueriifda4bvs7hps7rxobfyiweudugptfnja53xckh5tiylli"
     },
     "third_party": {
         "protocol/valory/abci/0.1.0": "bafybeig3dj5jhsowlvg3t73kgobf6xn4nka7rkttakdb2gwsg5bp7rt7q4",

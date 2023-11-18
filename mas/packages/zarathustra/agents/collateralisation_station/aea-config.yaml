@@ -21,7 +21,7 @@ protocols:
 - valory/ledger_api:1.0.0:bafybeibo4bdtcrxi2suyzldwoetjar6pqfzm6vt5xal22ravkkcvdmtksi
 - valory/tendermint:0.1.0:bafybeicusvezoqlmyt6iqomcbwaz3xkhk2qf3d56q5zprmj3xdxfy64k54
 skills:
-- zarathustra/collateralisation_station_abci:0.1.0:bafybeidelve2gequojc2qkmvlvjof5dvg7s2aq5r7ehtdsz55of3lmkkjq
+- zarathustra/collateralisation_station_abci:0.1.0:bafybeihu5cyniuy5n4c7ashoq6tulzvfirc56chbbwjvxj2rbcehnpoobe
 - valory/abstract_abci:0.1.0:bafybeiff2dqnkeorf343fmb3547fhiznvdw4ewbwl4rqluek2cv6ibl5hi
 - valory/abstract_round_abci:0.1.0:bafybeifoqz4fs63afcuzf4zjdyn2qu6satezs6kdiakzh7baphzxppeeg4
 - valory/registration_abci:0.1.0:bafybeib4ivf3h237knm4m73c7ymradx45ulgfdfubo7u656laojwmk6isi
