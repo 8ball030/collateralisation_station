@@ -1,7 +1,7 @@
 <script>
 	import { TOKENS_BY_SYMBOL_MAP } from '$lib/config/tokens';
 	import { TabGroup, Tab } from '@skeletonlabs/skeleton';
-	import Swap from '$lib/components/Swap.svelte';
+	import DepositWidget from '$lib/components/DepositWidget.svelte';
 	import { getWeb3Details, writeContract } from '$lib/utils';
 	import { abi } from '../../../../onchain/artifacts/contracts/Collateral.sol/Collateral.json';
 	import { waitForTransaction, fetchBalance } from '@wagmi/core';
@@ -79,7 +79,7 @@
 					<div class="auto-column">
 						<div class="input-wrapper">
 							<div class="input-section">
-								<Swap
+								<DepositWidget
 									setValue
 									currency={input}
 									{onCurrencySelect}
@@ -91,7 +91,11 @@
 					</div>
 				{:else}
 					<div class="auto-column">
-						<div class="input-wrapper">Redirect to PWN</div>
+						<div class="input-wrapper">
+							<div class="link">
+								<a href="https://app.pwn.xyz/#/create-loan"> Borrow on PWN </a>
+							</div>
+						</div>
 					</div>
 				{/if}
 			</svelte:fragment>
@@ -145,9 +149,9 @@
 	}
 
 	.input-section {
-		background-color: #e5e7eb; /* Replace with actual theme color */
+		background-color: #e5e7eb;
 		border-radius: 12px;
-		color: var(--neutral1); /* Replace with actual theme color */
+		color: grey;
 		font-size: 14px;
 		line-height: 20px;
 		font-weight: 500;
@@ -168,6 +172,13 @@
 		height: 100%;
 		pointer-events: none;
 		content: '';
-		border: 0.5px solid var(--lighterSurface2); /* Use darken(-0.02, var(--surface2)) */
+		border: 0.5px solid grey;
+	}
+
+	.link {
+		padding: 20px;
+		height: 120px;
+		font-weight: 600;
+		color: #3396ff;
 	}
 </style>

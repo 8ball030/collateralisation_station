@@ -22,6 +22,7 @@
 <style>
 	.launch {
 		width: 300px;
-		margin-right: 190px;
+		position: fixed;
+		right: 200px;
 	}
 </style>
