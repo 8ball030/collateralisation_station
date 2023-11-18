@@ -1,0 +1,32 @@
+2023-11-18T17:41:02.816Z: Running command deploy with arguments {"debug":false,"logs":"config/logs/","configuration":"config/config.json","config":"config/config.json","conf":"config/config.json","secrets":"config/secrets.env","receipt":"config/receipt.json","auto-remove":true,"autoRemove":true}
+2023-11-18T17:41:02.817Z: Parsing secrets file
+2023-11-18T17:41:02.913Z: Deriving airnode wallet from mnemonic
+2023-11-18T17:41:02.934Z: Deploying Airnode 0x8A74796587D669eca2fb250d40ef9006Ee53527e indigo-piranha to aws us-east-1
+2023-11-18T17:41:02.935Z: Fetching Airnode bucket
+2023-11-18T17:41:02.939Z: Listing S3 buckets
+2023-11-18T17:41:05.715Z: No Airnode S3 bucket found
+2023-11-18T17:41:05.715Z: No Airnode bucket found, creating
+2023-11-18T17:41:05.716Z: Creating S3 bucket 'airnode-aa298130ab57' in 'us-east-1'
+2023-11-18T17:41:09.366Z: Setting encryption for S3 bucket 'airnode-aa298130ab57'
+2023-11-18T17:41:10.271Z: Setting public access block for S3 bucket 'airnode-aa298130ab57'
+2023-11-18T17:41:10.839Z: Using Airnode bucket 'airnode-aa298130ab57'
+2023-11-18T17:41:10.839Z: Fetching Airnode bucket content
+2023-11-18T17:41:10.840Z: Listing objects for S3 bucket 'airnode-aa298130ab57'
+2023-11-18T17:41:13.413Z: Storing configuration file for new deployment 0x8A74796587D669eca2fb250d40ef9006Ee53527e/indigo-piranha/1700329262913
+2023-11-18T17:41:13.414Z: Storing file 'config/config.json' as '0x8A74796587D669eca2fb250d40ef9006Ee53527e/indigo-piranha/1700329262913/config.json' to S3 bucket 'airnode-aa298130ab57'
+2023-11-18T17:41:16.320Z: Storing secrets file for new deployment 0x8A74796587D669eca2fb250d40ef9006Ee53527e/indigo-piranha/1700329262913
+2023-11-18T17:41:16.321Z: Storing file 'config/secrets.env' as '0x8A74796587D669eca2fb250d40ef9006Ee53527e/indigo-piranha/1700329262913/secrets.env' to S3 bucket 'airnode-aa298130ab57'
+2023-11-18T17:41:18.511Z: Deploying Airnode via Terraform recipes
+2023-11-18T17:41:18.511Z: Deriving airnode wallet from mnemonic
+2023-11-18T17:41:18.550Z: Running command 'terraform init -backend-config="region=us-east-1" -backend-config="bucket=airnode-aa298130ab57" -backend-config="key=0x8A74796587D669eca2fb250d40ef9006Ee53527e/indigo-piranha/1700329262913/default.tfstate" -from-module=/usr/local/share/.config/yarn/global/node_modules/@api3/airnode-deployer/dist/terraform/aws' with options {"cwd":"/tmp/airnodeCBmLmA"}
+2023-11-18T17:44:35.061Z: Running command 'terraform apply -var="aws_region=us-east-1" -var="deployment_id=awsb5b9f8c8" -var="configuration_file=/usr/local/share/.config/yarn/global/node_modules/@api3/airnode-deployer/dist/config/config.json" -var="secrets_file=/usr/local/share/.config/yarn/global/node_modules/@api3/airnode-deployer/dist/config/secrets.env" -var="handler_dir=/usr/local/share/.config/yarn/global/node_modules/@api3/airnode-deployer/dist/.webpack" -var="disable_concurrency_reservation=true" -var="airnode_wallet_private_key=0x4685fd8454692857bc561372ea2d6f3bb735b3ac5a38ff0795164d431438f813" -input=false -no-color -var="max_concurrency=1000" -var="http_gateway_enabled=true" -var="http_max_concurrency=20" -var="http_signed_data_gateway_enabled=true" -var="http_signed_data_max_concurrency=20" -var="oev_gateway_enabled=true" -var="oev_max_concurrency=20" -auto-approve' with options {"cwd":"/tmp/airnodeCBmLmA"}
+2023-11-18T17:45:51.492Z: Running command 'terraform output -json -no-color' with options {"cwd":"/tmp/airnodeCBmLmA"}
+2023-11-18T17:45:55.598Z: Deployed Airnode 0x8A74796587D669eca2fb250d40ef9006Ee53527e indigo-piranha to aws us-east-1
+2023-11-18T17:45:55.599Z: Deriving airnode wallet from mnemonic
+2023-11-18T17:45:55.617Z: Deriving Airnode xpub from mnemonic
+2023-11-18T17:45:55.623Z: Writing receipt.json file
+2023-11-18T17:45:55.624Z: Outputted config/receipt.json
+  This file does not contain any sensitive information.
+2023-11-18T17:45:55.624Z: HTTP gateway URL: ***
+2023-11-18T17:45:55.624Z: HTTP signed data gateway URL: ***
+2023-11-18T17:45:55.624Z: OEV gateway URL: ***

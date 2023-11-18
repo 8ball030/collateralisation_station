@@ -41,3 +41,7 @@ service/
 # Hardhat files
 artifacts
 cache
+
+api3_deployment/aws.env
+api3_deployment/secrets.env
+
