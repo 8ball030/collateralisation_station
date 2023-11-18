@@ -17,7 +17,7 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the shared state for the abci skill of ComposedAbciApp."""
+"""This module contains the shared state for the abci skill of CollaterisationStationChainedAbciApp."""
 
 from packages.valory.skills.abstract_round_abci.models import BaseParams
 from packages.valory.skills.abstract_round_abci.models import (
@@ -27,13 +27,13 @@ from packages.valory.skills.abstract_round_abci.models import Requests as BaseRe
 from packages.valory.skills.abstract_round_abci.models import (
     SharedState as BaseSharedState,
 )
-from packages.zarathustra.skills.collateralisation_station_chained_abci.rounds import ComposedAbciApp
+from packages.zarathustra.skills.collateralisation_station_chained_abci.composition import CollaterisationStationChainedAbciApp
 
 
 class SharedState(BaseSharedState):
     """Keep the current shared state of the skill."""
 
-    abci_app_cls = ComposedAbciApp
+    abci_app_cls = CollaterisationStationChainedAbciApp
 
 
 Params = BaseParams
