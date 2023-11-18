@@ -282,11 +282,10 @@ contract Collateral is ERC721TokenReceiver {
         mapBorrowerHashStatuses[borrowerHash] = actual;
     }
 
-    function setQuoteProvided(address borrower, address registry, uint256 unitId) external {
+    function setQuoteProvided(address borrower, address registry, uint256 unitId, bytes32 signature_hash) external {
         _setStatus(borrower, registry, unitId, AssetStatus.Applied, AssetStatus.Unset);
 
-        // TODO approve to PWN
-        IERC20(dai).transfer(borrower, unitPrice);
+        IERC20(dai).approve(borrower, unitPrice);
         emit Applied(borrower, registry, unitId);
     }
 
