@@ -1,0 +1,17 @@
+flowchart TD
+    PostTransactionRound ---> |DONE| PrepareUpdateRound
+    PrepareUpdateRound ---> |DONE| PrepareUpdateTxSubmissionRound
+    PrepareUpdateRound ---> |POST_UPDATE| CheckOutstandingLoansRound
+    InitialiseRound ---> |DONE| CheckOutstandingLoansRound
+    CheckOutstandingLoansRound ---> |LOAN_NOT_PAID| PrepareLiquidationRound
+    PrepareLiquidationRound ---> |DONE| PrepareLiquidationTxSubmissionRound
+    CheckOutstandingLoansRound ---> |DONE| CheckForLoanRequestsRound
+
+    CheckForLoanRequestsRound ---> |ALREADY_OFFERED| FinishRound
+    CheckForLoanRequestsRound ---> |LOAN_REQUESTS_EXIST| CheckAvailableFundsRound 
+    CheckForLoanRequestsRound ---> |NO_LOANS_REQUESTS| FinishRound
+    CheckAvailableFundsRound ---> |INSUFFICIENT_FUNDS| FinishRound
+    CheckAvailableFundsRound ---> |SUFFICIENT_FUNDS| CheckValueOfCollateralRound
+    CheckValueOfCollateralRound ---> |WORTHLESS_NFT| FinishRound
+    CheckValueOfCollateralRound ---> |OFFERABLE_NFT| PrepareLoanOfferRound
+    PrepareLoanOfferRound ---> |DONE| PrepareOfferTxSubmissionRound
