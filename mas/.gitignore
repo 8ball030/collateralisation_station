@@ -1,0 +1,16 @@
+.*
+!.gitignore
+!.dockerignore
+!.env.template
+!.bumpversion.cfg
+
+__pycache__
+
+*private_key*
+keys.json
+
+packages/*
+!packages/eightballer
+
+agent/
+service/
