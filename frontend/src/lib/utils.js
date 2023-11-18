@@ -1,4 +1,12 @@
-import { getNetwork, getAccount } from '@wagmi/core';
+import {
+	readContract as readContractWagmi,
+	getNetwork,
+	getContract as getContractWagmi,
+	getAccount,
+	writeContract as writeContractWagmi
+} from '@wagmi/core';
+import { createPublicClient, http } from 'viem';
+import { mainnet } from 'viem/chains';
 
 /**
  * returns the web3 details
@@ -10,3 +18,40 @@ export const getWeb3Details = () => {
 
 	return { account, chainId };
 };
+
+/**
+ * returns contract interface
+ */
+export const getContract = (abi, contractAddress) => {
+	const contract = getContractWagmi({
+		address: contractAddress,
+		abi
+	});
+
+	return contract;
+};
+
+export const readContract = async (abi, address, method, args = []) => {
+	const data = await readContractWagmi({
+		address,
+		abi,
+		functionName: method,
+		args
+	});
+	return data;
+};
+
+export const writeContract = async (abi, address, method, args = []) => {
+	const { hash } = await writeContractWagmi({
+		address,
+		abi,
+		functionName: method,
+		args
+	});
+	return hash;
+};
+
+export const publicClient = createPublicClient({
+	chain: mainnet,
+	transport: http()
+});

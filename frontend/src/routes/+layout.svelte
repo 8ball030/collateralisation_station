@@ -5,6 +5,8 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi';
 	import { getWeb3Details } from '$lib/utils';
+	import Landing from '$lib/components/Landing.svelte';
+
 	import {
 		mainnet,
 		gnosis,
@@ -21,6 +23,14 @@
 	import './styles.css';
 
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+
+	$: isApp = false;
+
+	function launch() {
+		isApp = true;
+	}
+
+	console.log('isApp', isApp);
 
 	const chains = [
 		mainnet,
@@ -42,21 +52,25 @@
 	const modal = createWeb3Modal({ wagmiConfig, projectId, chains, themeMode: 'dark' });
 </script>
 
-<AppShell>
-	<svelte:fragment slot="header">
-		<AppBar>
-			<svelte:fragment slot="lead">
-				<h2 class="title">COLLATERALIZATION STATION</h2></svelte:fragment
-			>
-			<svelte:fragment slot="trail">
-				<div class="connect-btn">
-					<w3m-button label="Connect" />
-				</div>
-			</svelte:fragment>
-		</AppBar>
-	</svelte:fragment>
-	<slot />
-</AppShell>
+{#if isApp}
+	<AppShell>
+		<svelte:fragment slot="header">
+			<AppBar background="bg-[#082341]">
+				<svelte:fragment slot="lead">
+					<img class="h-10" src="/lg.png" alt="lg" />
+				</svelte:fragment>
+				<svelte:fragment slot="trail">
+					<div class="connect-btn">
+						<w3m-button label="Connect" />
+					</div>
+				</svelte:fragment>
+			</AppBar>
+		</svelte:fragment>
+		<slot />
+	</AppShell>
+{:else}
+	<Landing {launch} />
+{/if}
 
 <style>
 </style>

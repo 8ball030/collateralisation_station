@@ -14,6 +14,7 @@
 				? value.toString().slice(1, value.toString().length + 1)
 				: value;
 
+			console.log(enforcer);
 			enforcer(formattedValue.replace(/,/g, '.'));
 		} else {
 			enforcer(event.target.value.replace(/,/g, '.'));
@@ -30,7 +31,6 @@
 	autoCorrect="off"
 	type="text"
 	pattern="^[0-9]*[.,]?[0-9]*$"
-	placeholder={placeholder || '0'}
 	minLength={1}
 	maxLength={79}
 	spellCheck="false"

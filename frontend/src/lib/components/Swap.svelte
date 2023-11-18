@@ -1,7 +1,8 @@
 <!-- Swap.svelte -->
 <script>
-	import { getTokenBySymbol, getLogo } from '$lib/config/tokens';
+	import { getLogo } from '$lib/config/tokens';
 	import NumericInput from '$lib/components/NumericInput.svelte';
+	import CurrencySearch from '$lib/components/CurrencySearch.svelte';
 	import { getWeb3Details } from '$lib/utils';
 
 	export let currency;
@@ -26,17 +27,20 @@
 
 <div class="input-panel">
 	<div class="input-row">
-		<NumericInput class="token-amount-input" bind:value disabled={false} />
+		<NumericInput onUserInput={setValue} class="token-amount-input" bind:value disabled={false} />
 		<div class="currency-select-container">
 			<span>{supportLabel}</span>
 			<button class="currency-select" on:click={handleClick}>
 				<div class="aligner">
-					<img class="logo" src={getLogo(currency, chainId)} alt="token" />
+					<img class="logo" src={getLogo(currency, chainId) || '/dai.png'} alt="token" />
 					<div class="input-row">{currency ? currency : 'Select Token'}</div>
 				</div>
 			</button>
 		</div>
 	</div>
+	{#if modalOpen}
+		<CurrencySearch {modalOpen} {handleCurrencySelect} />
+	{/if}
 </div>
 
 <style>

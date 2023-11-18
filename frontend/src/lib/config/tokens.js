@@ -1,4 +1,4 @@
-import { GNOSIS } from '$lib/config/chains';
+import { GNOSIS, MAINNET } from '$lib/config/chains';
 
 export const TOKENS = {
 	[GNOSIS]: [
@@ -18,10 +18,44 @@ export const TOKENS = {
 			isStable: true,
 			imageUrl: '/olas.png'
 		}
+	],
+	[MAINNET]: [
+		{
+			name: 'Dai Stablecoin',
+			symbol: 'DAI',
+			decimals: 18,
+			address: '0x44fA8E6f47987339850636F88629646662444217',
+			isStable: true,
+			imageUrl: '/dai.png'
+		},
+		{
+			name: 'OLAS',
+			symbol: 'OLAS',
+			decimals: 18,
+			address: '0x79C872Ed3Acb3fc5770dd8a0cD9Cd5dB3B3Ac985',
+			isStable: true,
+			imageUrl: '/olas.png'
+		},
+		{
+			name: 'USD Coin',
+			symbol: 'USDC',
+			decimals: 6,
+			address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+			isStable: true,
+			imageUrl: 'usdc.png'
+		},
+		{
+			name: 'Tether',
+			symbol: 'USDT',
+			decimals: 6,
+			address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+			isStable: true,
+			imageUrl: '/theter.png'
+		}
 	]
 };
 
-const CHAIN_IDS = [GNOSIS];
+const CHAIN_IDS = [GNOSIS, MAINNET];
 
 export const TOKENS_MAP = {};
 export const TOKENS_BY_SYMBOL_MAP = {};
@@ -39,15 +73,8 @@ for (let j = 0; j < CHAIN_IDS.length; j++) {
 	}
 }
 
-export function getTokens(chainId) {
+export function getChainTokens(chainId) {
 	return TOKENS[chainId];
-}
-
-export function isValidToken(chainId, address) {
-	if (!TOKENS_MAP[chainId]) {
-		throw new Error(`Incorrect chainId ${chainId}`);
-	}
-	return address in TOKENS_MAP[chainId];
 }
 
 export function getToken(chainId, address) {
@@ -60,17 +87,14 @@ export function getToken(chainId, address) {
 	return TOKENS_MAP[chainId][address];
 }
 
-export function getTokenBySymbol(chainId, symbol) {
-	const token = TOKENS_BY_SYMBOL_MAP[chainId][symbol];
-	if (!token) {
-		console.log(`Incorrect symbol "${symbol}" for chainId ${chainId}`);
-	}
-	return token;
-}
-
-export const getLogo = (currency, chainId) => {
+export const getLogo = (currency, chainId = MAINNET) => {
+	console.log('currency', currency);
+	console.log('chainId', chainId);
+	console.log('TOKENS_BY_SYMBOL_MAP', TOKENS_BY_SYMBOL_MAP);
 	if (currency && !!chainId) {
-		const token = getTokenBySymbol(chainId, currency);
+		const token = TOKENS_BY_SYMBOL_MAP[chainId]?.[currency];
+
+		console.log('getTokenBySymbol', token);
 		if (!token) return null;
 		return token.imageUrl;
 	}

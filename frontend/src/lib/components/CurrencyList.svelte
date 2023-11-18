@@ -1,22 +1,22 @@
 <script>
+	export let tokens;
+	export let handleCurrencySelect;
 </script>
 
 <div class="token-selector-tokens">
 	{#each tokens as token (token.address)}
-		<div class="token-row" on:click={() => onCurrencySelect(token.symbol)}>
-			{#if !otherCurrency || token.symbol !== otherCurrency}
-				<div class="token-info">
-					<img class="token-logo" src={token.imageUrl} alt={token.name} />
-					<div class="box">
-						<div class="token-symbol">
-							<div class="token-text">{token.symbol}</div>
-						</div>
-						<div class="token-name">
-							<span class="text-accent">{token.name}</span>
-						</div>
+		<div class="token-row" on:click={() => handleCurrencySelect(token.symbol)}>
+			<div class="token-info">
+				<img class="token-logo" src={token.imageUrl} alt={token.name} />
+				<div class="box">
+					<div class="token-symbol">
+						<div class="token-text">{token.symbol}</div>
+					</div>
+					<div class="token-name">
+						<span class="text-accent">{token.name}</span>
 					</div>
 				</div>
-			{/if}
+			</div>
 		</div>
 	{/each}
 </div>

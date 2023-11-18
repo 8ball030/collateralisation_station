@@ -1,29 +1,34 @@
 <script>
-	import { getTokens } from '$lib/config/tokens';
+	import { getChainTokens } from '$lib/config/tokens';
 	import { MAINNET } from '$lib/config/chains';
-	import { CurrencyList } from '$lib/components/CurrencyList';
+	import CurrencyList from '$lib/components/CurrencyList.svelte';
+	import { getWeb3Details } from '$lib/utils';
 
 	export let otherCurrency;
-	export let isOpen;
-	export let onCurrencySelect;
+	export let modalOpen;
+	export let handleCurrencySelect;
 
-	let searchQuery;
+	let searchQuery = '';
+
 	function setSearchQuery(input) {
 		searchQuery = input;
 	}
 
-	const chainId = useChainId();
+	const { chainId } = getWeb3Details();
 
-	const tokensId = chainId && isSupportedChain(chainId) ? chainId : MAINNET;
-	const defaultTokens = getTokens(tokensId);
-	const filteredTokens = defaultTokens.filter((item) => {
+	const chain = chainId || MAINNET;
+	const chainTokens = getChainTokens(chain);
+	console.log(chainTokens);
+	console.log(chain);
+	const filteredTokens = chainTokens.filter((item) => {
+		console.log(item);
 		return (
-			item.name.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1 ||
-			item.symbol.toLowerCase().indexOf(searchQuery.toLowerCase()) > -1
+			item?.name?.toLowerCase().indexOf(searchQuery?.toLowerCase()) > -1 ||
+			item?.symbol?.toLowerCase().indexOf(searchQuery?.toLowerCase()) > -1
 		);
 	});
 
-	$: if (isOpen) {
+	$: if (modalOpen) {
 		setSearchQuery('');
 	}
 
@@ -46,16 +51,20 @@
 		/>
 	</div>
 	<div class="separator" />
-	<div style={{ flex: '1' }}>
-		<CurrencyList {otherCurrency} tokens={filteredTokens} {onCurrencySelect} />
+	<div class="f1">
+		<CurrencyList {otherCurrency} tokens={filteredTokens || []} {handleCurrencySelect} />
 	</div>
 </div>
 
 <style>
+	.f1 {
+		flex: 1;
+	}
 	.wrapper {
 		width: 100%;
 		flex: 1 1;
 		position: relative;
+		background-color: white;
 	}
 	.search-input {
 		background: no-repeat scroll 7px 7px;
