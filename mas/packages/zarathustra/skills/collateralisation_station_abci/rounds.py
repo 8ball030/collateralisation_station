@@ -32,7 +32,7 @@ from packages.valory.skills.abstract_round_abci.base import (
     EventToTimeout,
     get_name,
 )
-from packages.zarathustra.skills.collateralisation_station_abci.payloads import (
+from packages.ezarathustra.skills.collateralisation_station_abci.payloads import (
     CheckAvailableFundsPayload,
     CheckForLoanRequestsPayload,
     CheckOutstandingLoansPayload,
@@ -83,7 +83,7 @@ class CheckAvailableFundsRound(AbstractRound):
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
         synchronized_data = self.synchronized_data
-        return synchronized_data, Event.DONE
+        return synchronized_data, Event.SUFFICIENT_FUNDS
 
     def check_payload(self, payload: CheckAvailableFundsPayload) -> None:
         """Check payload."""
@@ -104,7 +104,7 @@ class CheckForLoanRequestsRound(AbstractRound):
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
         synchronized_data = self.synchronized_data
-        return synchronized_data, Event.DONE
+        return synchronized_data, Event.LOAN_REQUESTS_EXIST
 
     def check_payload(self, payload: CheckForLoanRequestsPayload) -> None:
         """Check payload."""
@@ -146,7 +146,7 @@ class CheckValueOfCollateralRound(AbstractRound):
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
         synchronized_data = self.synchronized_data
-        return synchronized_data, Event.DONE
+        return synchronized_data, Event.OFFERABLE_NFT
 
     def check_payload(self, payload: CheckValueOfCollateralPayload) -> None:
         """Check payload."""
@@ -251,7 +251,7 @@ class PrepareUpdateRound(AbstractRound):
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
         synchronized_data = self.synchronized_data
-        return synchronized_data, Event.DONE
+        return synchronized_data, Event.POST_UPDATE
 
     def check_payload(self, payload: PrepareUpdatePayload) -> None:
         """Check payload."""
