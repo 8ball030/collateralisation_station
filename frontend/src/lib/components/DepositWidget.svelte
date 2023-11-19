@@ -1,7 +1,7 @@
 <!-- Swap.svelte -->
 <script>
 	import { getLogo } from '$lib/config/tokens';
-	import NumericInput from '$lib/components/NumericInput.svelte';
+	import Input from '$lib/components/Input.svelte';
 	import CurrencySearch from '$lib/components/CurrencySearch.svelte';
 	import { getWeb3Details } from '$lib/utils';
 
@@ -27,7 +27,7 @@
 
 <div class="input-panel">
 	<div class="input-row">
-		<NumericInput onUserInput={setValue} class="token-amount-input" bind:value disabled={false} />
+		<Input onUserInput={setValue} class="token-amount-input" bind:value disabled={false} />
 		<div class="currency-select-container">
 			<span>{supportLabel}</span>
 			<button class="currency-select" on:click={handleClick}>

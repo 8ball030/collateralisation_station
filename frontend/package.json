@@ -32,6 +32,7 @@
 		"@fontsource/fira-mono": "^5.0.8",
 		"@neoconfetti/svelte": "^1.0.0",
 		"@sveltejs/adapter-static": "^2.0.3",
-		"@web3modal/wagmi": "^3.3.2"
+		"@web3modal/wagmi": "^3.3.2",
+		"ethers": "^6.8.1"
 	}
 }

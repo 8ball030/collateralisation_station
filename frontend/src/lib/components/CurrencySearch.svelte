@@ -18,10 +18,8 @@
 
 	const chain = chainId || MAINNET;
 	const chainTokens = getChainTokens(chain);
-	console.log(chainTokens);
-	console.log(chain);
+
 	const filteredTokens = chainTokens.filter((item) => {
-		console.log(item);
 		return (
 			item?.name?.toLowerCase().indexOf(searchQuery?.toLowerCase()) > -1 ||
 			item?.symbol?.toLowerCase().indexOf(searchQuery?.toLowerCase()) > -1

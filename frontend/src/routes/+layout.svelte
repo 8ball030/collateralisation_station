@@ -51,10 +51,9 @@
 
 	const olsContact = '0xc096362fa6f4A4B1a9ea68b1043416f3381ce300';
 	onMount(async () => {
-		const data = await readContract(toxAbi, olsContact, 'mapOwnerRewards', [
+		const data = await readContract(toxAbi, olsContact, 'getOwnerRewards', [
 			'0x588d91aBF5192A0f0dc026bF05f510253bD1CF51'
 		]);
-		console.log('data - . ', data);
 	});
 </script>
 

@@ -3,7 +3,7 @@
 	import { TabGroup, Tab } from '@skeletonlabs/skeleton';
 	import DepositWidget from '$lib/components/DepositWidget.svelte';
 	import { getWeb3Details, writeContract } from '$lib/utils';
-	import { abi } from '../../../../onchain/artifacts/contracts/Collateral.sol/Collateral.json';
+	import { abi } from '../../../../onchain/abis/Collateral.json';
 	import { waitForTransaction, fetchBalance } from '@wagmi/core';
 	import { onMount } from 'svelte';
 	import getBalances from '$lib/actions/getBalances';
@@ -18,10 +18,15 @@
 	const { chainId, account } = getWeb3Details();
 	const contractAddress = '0xeB49bE5DF00F74bd240DE4535DDe6Bc89CEfb994';
 
-	function handleDeposit(val) {
-		let res = writeContract(abi, contractAddress, 'deposit');
+	async function handleDeposit() {
+		console.log('handleDeposit');
+
+		let res = await writeContract(abi, contractAddress, 'deposit', [
+			'0x3c499c542cef5e3811e1192ce70d8cc03d5c3359',
+			1
+		]);
+		console.log('res_', res);
 		data = res.data;
-		write = res.write;
 	}
 
 	$: if (data && data.hash) {
@@ -33,35 +38,26 @@
 	}
 
 	function onCurrencySelect(val) {
-		console.log('selected');
 		currency = val;
 	}
 
-	function setValue() {
-		console.log('set');
+	function setValue(val) {
+		inputAmount = val;
 	}
 
 	// States
 	let inputAmount = 0;
 	$: input = currency;
 
-	console.log(input);
 	// Derived states and logic
 	const inputToken = TOKENS_BY_SYMBOL_MAP[chainId]?.[input];
 
 	console.log('inputToken', inputToken);
-	// add prices
-	const depositPrice = 1.0;
 
 	onMount(async () => {
 		const data = await fetchBalance({
 			address: '0x18070D824952Fb5d46F529659BdB497ebB1C5985'
 		});
-		// const balance = await getBalances();
-
-		console.log(data);
-		console.log(data?.formatted);
-		console.log(data?.symbol);
 	});
 </script>
 
@@ -80,7 +76,7 @@
 						<div class="input-wrapper">
 							<div class="input-section">
 								<DepositWidget
-									setValue
+									{setValue}
 									currency={input}
 									{onCurrencySelect}
 									bind:value={inputAmount}
@@ -107,7 +103,7 @@
 			<div>
 				<button
 					disabled={!inputAmount || isLoading}
-					onClick={() => handleDeposit()}
+					on:click={handleDeposit}
 					class="btn variant-ringed-primary w-full mt-4"
 				>
 					{isLoading ? 'Deposit...' : 'Deposit'}
