@@ -4,6 +4,44 @@ coverage
 coverage.json
 .idea
 
+# python
+__pycache__
+
+# aea / autonomy
+*private_key*
+keys.json
+
+mas/packages/valory/protocols/abci
+mas/packages/valory/protocols/contract_api
+mas/packages/valory/protocols/ledger_api
+mas/packages/valory/protocols/http
+mas/packages/valory/protocols/acn
+mas/packages/valory/connections/abci
+mas/packages/valory/protocols/ipfs
+mas/packages/valory/contracts/gnosis_safe_proxy_factory
+mas/packages/valory/connections/ledger
+mas/packages/valory/connections/http_client
+mas/packages/valory/connections/p2p_libp2p_client
+mas/packages/valory/contracts/service_registry
+mas/packages/valory/skills/abstract_abci
+mas/packages/valory/connections/ipfs
+mas/packages/open_aea/protocols/signing
+mas/packages/valory/protocols/tendermint
+mas/packages/valory/contracts/gnosis_safe
+mas/packages/valory/skills/abstract_round_abci
+mas/packages/valory/skills/transaction_settlement_abci
+mas/packages/valory/contracts/multisend
+mas/packages/valory/skills/termination_abci
+mas/packages/valory/skills/registration_abci
+mas/packages/valory/skills/reset_pause_abci
+
+agent/
+service/
+
 # Hardhat files
 artifacts
 cache
+
+api3_deployment/aws.env
+api3_deployment/secrets.env
+

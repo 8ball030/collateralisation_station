@@ -1,0 +1,18 @@
+{
+  "airnodeWallet": {
+    "airnodeAddress": "0x8A74796587D669eca2fb250d40ef9006Ee53527e",
+    "airnodeXpub": "xpub6CePsP3BiTUeUcd3hz1eufawER16saYVAQPa93nJD1fMXunTzBVscwBtU7CsNhekuTKx5xUJGrLJcFEm5H4Hay24HMNEp3yuCSST8gkXPBA"
+  },
+  "deployment": {
+    "deploymentId": "awsb5b9f8c8",
+    "cloudProvider": {
+      "type": "aws",
+      "region": "us-east-1",
+      "disableConcurrencyReservations": true
+    },
+    "stage": "indigo-piranha",
+    "nodeVersion": "0.13.0",
+    "timestamp": "2023-11-18T17:41:02.913Z"
+  },
+  "success": true
+}
