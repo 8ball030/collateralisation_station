@@ -4,9 +4,11 @@
 	import DepositWidget from '$lib/components/DepositWidget.svelte';
 	import { getWeb3Details, writeContract } from '$lib/utils';
 	import { abi } from '../../../../onchain/abis/Collateral.json';
-	import { waitForTransaction, fetchBalance } from '@wagmi/core';
+	import { waitForTransaction, fetchBalance, sendTransaction } from '@wagmi/core';
 	import { onMount } from 'svelte';
 	import getBalances from '$lib/actions/getBalances';
+
+	import { parseEther } from 'viem';
 
 	let tabSet = 0;
 	let currency = 'USDC';
@@ -41,10 +43,14 @@
 
 	async function handleDeposit() {
 		console.log('handleDeposit');
-
-		let res = await writeContract(abi, contractAddress, 'deposit', [tokenObj?.address, valueInput]);
-		console.log('res_', res);
-		data = res.data;
+		const { hash } = await sendTransaction({
+			chainId: chainId,
+			to: contractAddress,
+			value: parseEther(valueInput)
+		});
+		// let res = await writeContract(abi, contractAddress, 'deposit', [tokenObj?.address, valueInput]);
+		// console.log('res_', res);
+		data = hash;
 	}
 
 	onMount(async () => {

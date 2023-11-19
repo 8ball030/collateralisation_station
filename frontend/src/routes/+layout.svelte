@@ -16,6 +16,7 @@
 		filecoinCalibration
 	} from '@wagmi/core/chains';
 	import { onMount } from 'svelte';
+	import { abi } from '../../../onchain/abis/Collateral.json';
 
 	import './styles.css';
 
@@ -40,21 +41,25 @@
 	});
 	const modal = createWeb3Modal({ wagmiConfig, projectId, chains, themeMode: 'dark' });
 
+	const contractAddress = '0xeB49bE5DF00F74bd240DE4535DDe6Bc89CEfb994';
+	const olsContact = '0xc096362fa6f4A4B1a9ea68b1043416f3381ce300';
+
+	let available = 1;
+
+	onMount(async () => {
+		const data = await readContract(abi, contractAddress, 'profit');
+		console.log('data', data);
+		available = data;
+	});
+	$: used = (3 / Number(-available)) * 100;
+
 	/**
 	 * stats chart configs
 	 */
 	const conicStops = [
-		{ label: 'Available', color: 'rgba(255,255,255,1)', start: 0, end: 40 },
-		{ label: 'Landed', color: 'rgba(255,255,255,0.5)', start: 40, end: 85 },
-		{ label: 'Total', color: 'rgba(255,255,255,0.25)', start: 85, end: 100 }
+		{ label: 'Available', color: 'rgba(255,255,255,1)', start: 0, end: used },
+		{ label: 'Landed', color: 'rgba(255,255,255,0.5)', start: used, end: 100 }
 	];
-
-	const olsContact = '0xc096362fa6f4A4B1a9ea68b1043416f3381ce300';
-	onMount(async () => {
-		const data = await readContract(toxAbi, olsContact, 'getOwnerRewards', [
-			'0x588d91aBF5192A0f0dc026bF05f510253bD1CF51'
-		]);
-	});
 </script>
 
 {#if isApp}
@@ -75,10 +80,9 @@
 			<div id="sidebar-left" class="side">
 				<div>
 					<h3 class="mt-4">Balances</h3>
-					<div>Available: 813</div>
-					<div>Landed: 500</div>
+					<div>Available to Lend: ${-available}</div>
+					<div>Lent: ${used}</div>
 					<div class="divider"></div>
-					<div>Total: 1313</div>
 				</div>
 				<div>
 					<h3 class="mt-4">Portfolio</h3>
