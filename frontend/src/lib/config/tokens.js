@@ -106,9 +106,6 @@ export function getToken(chainId, address) {
 }
 
 export const getLogo = (currency, chainId = MAINNET) => {
-	console.log(TOKENS_BY_SYMBOL_MAP);
-	console.log(currency);
-	console.log(chainId);
 	if (currency && !!chainId) {
 		const token = TOKENS_BY_SYMBOL_MAP[chainId]?.[currency];
 

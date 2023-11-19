@@ -1,14 +1,12 @@
 <!-- Swap.svelte -->
 <script>
 	import { getLogo } from '$lib/config/tokens';
-	import Input from '$lib/components/Input.svelte';
 	import CurrencySearch from '$lib/components/CurrencySearch.svelte';
 	import { getWeb3Details } from '$lib/utils';
 
 	export let currency;
 	export let onCurrencySelect;
-	export let value;
-	export let setValue;
+	export let onAmountInput;
 	export let supportLabel;
 
 	const { chainId } = getWeb3Details();
@@ -27,7 +25,15 @@
 
 <div class="input-panel">
 	<div class="input-row">
-		<Input onUserInput={setValue} class="token-amount-input" bind:value disabled={false} />
+		<input
+			class="token-input"
+			on:change={onAmountInput}
+			on:input={onAmountInput}
+			type="text"
+			pattern="^[0-9]*[.,]?[0-9]*$"
+			minLength={1}
+			maxLength={79}
+		/>
 		<div class="currency-select-container">
 			<span>{supportLabel}</span>
 			<button class="currency-select" on:click={handleClick}>
@@ -98,5 +104,18 @@
 		border-radius: 16px;
 		justify-content: space-between;
 		width: 100%;
+	}
+	.token-input {
+		width: 0px;
+		position: relative;
+		font-weight: 500;
+		outline: none;
+		border: none;
+		flex: 1 1 auto;
+		background-color: transparent;
+		font-size: 28px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: left;
 	}
 </style>

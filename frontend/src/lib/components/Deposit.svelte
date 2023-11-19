@@ -18,17 +18,6 @@
 	const { chainId, account } = getWeb3Details();
 	const contractAddress = '0xeB49bE5DF00F74bd240DE4535DDe6Bc89CEfb994';
 
-	async function handleDeposit() {
-		console.log('handleDeposit');
-
-		let res = await writeContract(abi, contractAddress, 'deposit', [
-			'0x3c499c542cef5e3811e1192ce70d8cc03d5c3359',
-			1
-		]);
-		console.log('res_', res);
-		data = res.data;
-	}
-
 	$: if (data && data.hash) {
 		let res = waitForTransaction({
 			hash: data?.hash
@@ -37,22 +26,26 @@
 		isSuccess = res.isSuccess;
 	}
 
-	function onCurrencySelect(val) {
-		currency = val;
+	function onCurrencySelect(curr) {
+		currency = curr;
 	}
-
-	function setValue(val) {
-		inputAmount = val;
-	}
-
 	// States
-	let inputAmount = 0;
-	$: input = currency;
-
+	$: valueInput = 0;
+	$: currencyInput = currency;
 	// Derived states and logic
-	const inputToken = TOKENS_BY_SYMBOL_MAP[chainId]?.[input];
+	$: tokenObj = TOKENS_BY_SYMBOL_MAP[chainId]?.[currencyInput];
 
-	console.log('inputToken', inputToken);
+	function onAmountInput(event) {
+		valueInput = event.target.value;
+	}
+
+	async function handleDeposit() {
+		console.log('handleDeposit');
+
+		let res = await writeContract(abi, contractAddress, 'deposit', [tokenObj?.address, valueInput]);
+		console.log('res_', res);
+		data = res.data;
+	}
 
 	onMount(async () => {
 		const data = await fetchBalance({
@@ -76,10 +69,10 @@
 						<div class="input-wrapper">
 							<div class="input-section">
 								<DepositWidget
-									{setValue}
-									currency={input}
+									{onAmountInput}
+									currency={currencyInput}
 									{onCurrencySelect}
-									bind:value={inputAmount}
+									bind:value={valueInput}
 									supportLabel=""
 								/>
 							</div>
@@ -102,7 +95,7 @@
 		{:else}
 			<div>
 				<button
-					disabled={!inputAmount || isLoading}
+					disabled={!valueInput || isLoading}
 					on:click={handleDeposit}
 					class="btn variant-ringed-primary w-full mt-4"
 				>
