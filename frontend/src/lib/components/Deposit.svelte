@@ -9,14 +9,14 @@
 	import getBalances from '$lib/actions/getBalances';
 
 	let tabSet = 0;
-	let currency = 'DAI';
+	let currency = 'USDC';
 	let data;
 
 	let isLoading = false;
 	let isSuccess = false;
 
 	const { chainId, account } = getWeb3Details();
-	const contractAddress = '0x..';
+	const contractAddress = '0xeB49bE5DF00F74bd240DE4535DDe6Bc89CEfb994';
 
 	function handleDeposit(val) {
 		let res = writeContract(abi, contractAddress, 'deposit');
@@ -57,7 +57,7 @@
 		const data = await fetchBalance({
 			address: '0x18070D824952Fb5d46F529659BdB497ebB1C5985'
 		});
-		//const balance = await getBalances();
+		// const balance = await getBalances();
 
 		console.log(data);
 		console.log(data?.formatted);

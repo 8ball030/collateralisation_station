@@ -88,13 +88,9 @@ export function getToken(chainId, address) {
 }
 
 export const getLogo = (currency, chainId = MAINNET) => {
-	console.log('currency', currency);
-	console.log('chainId', chainId);
-	console.log('TOKENS_BY_SYMBOL_MAP', TOKENS_BY_SYMBOL_MAP);
 	if (currency && !!chainId) {
 		const token = TOKENS_BY_SYMBOL_MAP[chainId]?.[currency];
 
-		console.log('getTokenBySymbol', token);
 		if (!token) return null;
 		return token.imageUrl;
 	}
