@@ -6,7 +6,7 @@ import {
 	writeContract as writeContractWagmi
 } from '@wagmi/core';
 import { createPublicClient, http } from 'viem';
-import { mainnet } from 'viem/chains';
+import { mainnet, polygon } from 'viem/chains';
 
 /**
  * returns the web3 details
@@ -52,6 +52,6 @@ export const writeContract = async (abi, address, method, args = []) => {
 };
 
 export const publicClient = createPublicClient({
-	chain: mainnet,
+	chain: polygon,
 	transport: http()
 });

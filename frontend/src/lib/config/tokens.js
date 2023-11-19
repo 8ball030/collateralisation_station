@@ -1,4 +1,4 @@
-import { GNOSIS, MAINNET } from '$lib/config/chains';
+import { GNOSIS, MAINNET, POLYGON } from '$lib/config/chains';
 
 export const TOKENS = {
 	[GNOSIS]: [
@@ -52,10 +52,28 @@ export const TOKENS = {
 			isStable: true,
 			imageUrl: '/tether.png'
 		}
+	],
+	[POLYGON]: [
+		{
+			name: 'USDC',
+			symbol: 'USDC',
+			decimals: 6,
+			address: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359',
+			isStable: true,
+			imageUrl: '/usdc.png'
+		},
+		{
+			name: 'MATIC',
+			symbol: 'MATIC',
+			decimals: 18,
+			address: '0x0000000000000000000000000000000000001010',
+			isStable: true,
+			imageUrl: '/matic.png'
+		}
 	]
 };
 
-const CHAIN_IDS = [GNOSIS, MAINNET];
+const CHAIN_IDS = [GNOSIS, MAINNET, POLYGON];
 
 export const TOKENS_MAP = {};
 export const TOKENS_BY_SYMBOL_MAP = {};
@@ -88,13 +106,9 @@ export function getToken(chainId, address) {
 }
 
 export const getLogo = (currency, chainId = MAINNET) => {
-	console.log('currency', currency);
-	console.log('chainId', chainId);
-	console.log('TOKENS_BY_SYMBOL_MAP', TOKENS_BY_SYMBOL_MAP);
 	if (currency && !!chainId) {
 		const token = TOKENS_BY_SYMBOL_MAP[chainId]?.[currency];
 
-		console.log('getTokenBySymbol', token);
 		if (!token) return null;
 		return token.imageUrl;
 	}

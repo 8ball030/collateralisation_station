@@ -3,26 +3,20 @@
 	import { TabGroup, Tab } from '@skeletonlabs/skeleton';
 	import DepositWidget from '$lib/components/DepositWidget.svelte';
 	import { getWeb3Details, writeContract } from '$lib/utils';
-	import { abi } from '../../../../onchain/artifacts/contracts/Collateral.sol/Collateral.json';
+	import { abi } from '../../../../onchain/abis/Collateral.json';
 	import { waitForTransaction, fetchBalance } from '@wagmi/core';
 	import { onMount } from 'svelte';
 	import getBalances from '$lib/actions/getBalances';
 
 	let tabSet = 0;
-	let currency = 'DAI';
+	let currency = 'USDC';
 	let data;
 
 	let isLoading = false;
 	let isSuccess = false;
 
 	const { chainId, account } = getWeb3Details();
-	const contractAddress = '0x..';
-
-	function handleDeposit(val) {
-		let res = writeContract(abi, contractAddress, 'deposit');
-		data = res.data;
-		write = res.write;
-	}
+	const contractAddress = '0xeB49bE5DF00F74bd240DE4535DDe6Bc89CEfb994';
 
 	$: if (data && data.hash) {
 		let res = waitForTransaction({
@@ -32,36 +26,31 @@
 		isSuccess = res.isSuccess;
 	}
 
-	function onCurrencySelect(val) {
-		console.log('selected');
-		currency = val;
+	function onCurrencySelect(curr) {
+		currency = curr;
 	}
-
-	function setValue() {
-		console.log('set');
-	}
-
 	// States
-	let inputAmount = 0;
-	$: input = currency;
-
-	console.log(input);
+	$: valueInput = 0;
+	$: currencyInput = currency;
 	// Derived states and logic
-	const inputToken = TOKENS_BY_SYMBOL_MAP[chainId]?.[input];
+	$: tokenObj = TOKENS_BY_SYMBOL_MAP[chainId]?.[currencyInput];
 
-	console.log('inputToken', inputToken);
-	// add prices
-	const depositPrice = 1.0;
+	function onAmountInput(event) {
+		valueInput = event.target.value;
+	}
+
+	async function handleDeposit() {
+		console.log('handleDeposit');
+
+		let res = await writeContract(abi, contractAddress, 'deposit', [tokenObj?.address, valueInput]);
+		console.log('res_', res);
+		data = res.data;
+	}
 
 	onMount(async () => {
 		const data = await fetchBalance({
 			address: '0x18070D824952Fb5d46F529659BdB497ebB1C5985'
 		});
-		//const balance = await getBalances();
-
-		console.log(data);
-		console.log(data?.formatted);
-		console.log(data?.symbol);
 	});
 </script>
 
@@ -80,10 +69,10 @@
 						<div class="input-wrapper">
 							<div class="input-section">
 								<DepositWidget
-									setValue
-									currency={input}
+									{onAmountInput}
+									currency={currencyInput}
 									{onCurrencySelect}
-									bind:value={inputAmount}
+									bind:value={valueInput}
 									supportLabel=""
 								/>
 							</div>
@@ -106,8 +95,8 @@
 		{:else}
 			<div>
 				<button
-					disabled={!inputAmount || isLoading}
-					onClick={() => handleDeposit()}
+					disabled={!valueInput || isLoading}
+					on:click={handleDeposit}
 					class="btn variant-ringed-primary w-full mt-4"
 				>
 					{isLoading ? 'Deposit...' : 'Deposit'}
