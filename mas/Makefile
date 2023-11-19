@@ -64,3 +64,9 @@ test:
 	poetry run adev -v test
 
 all: fmt lint test hashes
+
+metadata:
+	adev metadata generate . contract/eightballer/pwn_simple_loan/0.1.0 01
+	adev -v metadata validate mints/01.json
+
+
