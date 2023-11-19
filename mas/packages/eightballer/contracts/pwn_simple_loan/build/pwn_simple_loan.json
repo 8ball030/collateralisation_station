@@ -1,0 +1,515 @@
+{
+    "abi": [
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "hub",
+                    "type": "address"
+                },
+                {
+                    "internalType": "address",
+                    "name": "revokedOfferNonce",
+                    "type": "address"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "constructor"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "CallerIsNotStatedBorrower",
+            "type": "error"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "name": "CallerIsNotStatedLender",
+            "type": "error"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "CallerMissingHubTag",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "InvalidDuration",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "InvalidSignature",
+            "type": "error"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "name": "InvalidSignatureLength",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "NonceAlreadyRevoked",
+            "type": "error"
+        },
+        {
+            "inputs": [],
+            "name": "OfferExpired",
+            "type": "error"
+        },
+        {
+            "anonymous": false,
+            "inputs": [
+                {
+                    "indexed": true,
+                    "internalType": "bytes32",
+                    "name": "offerHash",
+                    "type": "bytes32"
+                },
+                {
+                    "indexed": true,
+                    "internalType": "address",
+                    "name": "lender",
+                    "type": "address"
+                }
+            ],
+            "name": "OfferMade",
+            "type": "event"
+        },
+        {
+            "inputs": [],
+            "name": "MIN_LOAN_DURATION",
+            "outputs": [
+                {
+                    "internalType": "uint32",
+                    "name": "",
+                    "type": "uint32"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "caller",
+                    "type": "address"
+                },
+                {
+                    "internalType": "bytes",
+                    "name": "factoryData",
+                    "type": "bytes"
+                },
+                {
+                    "internalType": "bytes",
+                    "name": "signature",
+                    "type": "bytes"
+                }
+            ],
+            "name": "createLOANTerms",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "address",
+                            "name": "lender",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "borrower",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint40",
+                            "name": "expiration",
+                            "type": "uint40"
+                        },
+                        {
+                            "components": [
+                                {
+                                    "internalType": "enum MultiToken.Category",
+                                    "name": "category",
+                                    "type": "uint8"
+                                },
+                                {
+                                    "internalType": "address",
+                                    "name": "assetAddress",
+                                    "type": "address"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "id",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "amount",
+                                    "type": "uint256"
+                                }
+                            ],
+                            "internalType": "struct MultiToken.Asset",
+                            "name": "collateral",
+                            "type": "tuple"
+                        },
+                        {
+                            "components": [
+                                {
+                                    "internalType": "enum MultiToken.Category",
+                                    "name": "category",
+                                    "type": "uint8"
+                                },
+                                {
+                                    "internalType": "address",
+                                    "name": "assetAddress",
+                                    "type": "address"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "id",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "internalType": "uint256",
+                                    "name": "amount",
+                                    "type": "uint256"
+                                }
+                            ],
+                            "internalType": "struct MultiToken.Asset",
+                            "name": "asset",
+                            "type": "tuple"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "loanRepayAmount",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct PWNLOANTerms.Simple",
+                    "name": "loanTerms",
+                    "type": "tuple"
+                },
+                {
+                    "internalType": "bytes32",
+                    "name": "offerHash",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "enum MultiToken.Category",
+                            "name": "collateralCategory",
+                            "type": "uint8"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "collateralAddress",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "collateralId",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "collateralAmount",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "loanAssetAddress",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "loanAmount",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "loanYield",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint32",
+                            "name": "duration",
+                            "type": "uint32"
+                        },
+                        {
+                            "internalType": "uint40",
+                            "name": "expiration",
+                            "type": "uint40"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "borrower",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "lender",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "isPersistent",
+                            "type": "bool"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "nonce",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct PWNSimpleLoanSimpleOffer.Offer",
+                    "name": "offer",
+                    "type": "tuple"
+                }
+            ],
+            "name": "encodeLoanTermsFactoryData",
+            "outputs": [
+                {
+                    "internalType": "bytes",
+                    "name": "",
+                    "type": "bytes"
+                }
+            ],
+            "stateMutability": "pure",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "enum MultiToken.Category",
+                            "name": "collateralCategory",
+                            "type": "uint8"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "collateralAddress",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "collateralId",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "collateralAmount",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "loanAssetAddress",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "loanAmount",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "loanYield",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint32",
+                            "name": "duration",
+                            "type": "uint32"
+                        },
+                        {
+                            "internalType": "uint40",
+                            "name": "expiration",
+                            "type": "uint40"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "borrower",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "lender",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "isPersistent",
+                            "type": "bool"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "nonce",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct PWNSimpleLoanSimpleOffer.Offer",
+                    "name": "offer",
+                    "type": "tuple"
+                }
+            ],
+            "name": "getOfferHash",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "enum MultiToken.Category",
+                            "name": "collateralCategory",
+                            "type": "uint8"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "collateralAddress",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "collateralId",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "collateralAmount",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "loanAssetAddress",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "loanAmount",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "loanYield",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint32",
+                            "name": "duration",
+                            "type": "uint32"
+                        },
+                        {
+                            "internalType": "uint40",
+                            "name": "expiration",
+                            "type": "uint40"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "borrower",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "lender",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "bool",
+                            "name": "isPersistent",
+                            "type": "bool"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "nonce",
+                            "type": "uint256"
+                        }
+                    ],
+                    "internalType": "struct PWNSimpleLoanSimpleOffer.Offer",
+                    "name": "offer",
+                    "type": "tuple"
+                }
+            ],
+            "name": "makeOffer",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "name": "offersMade",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "offerNonce",
+                    "type": "uint256"
+                }
+            ],
+            "name": "revokeOfferNonce",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }
+    ],
+    "_format": "",
+    "bytecode": "",
+    "sourceName": "",
+    "deployedBytecode": "",
+    "deployedLinkReferences": ""
+}
