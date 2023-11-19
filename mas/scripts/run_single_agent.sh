@@ -1,7 +1,7 @@
 set -e 
 
 # fetch the agent from the local package registry
-aea fetch $1 --local --alias agent
+aea fetch zarathustra/collateralisation_station --local --alias agent
 
 # go to the new agent
 cd agent
