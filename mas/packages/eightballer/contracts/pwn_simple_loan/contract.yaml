@@ -1,0 +1,17 @@
+name: pwn_simple_loan
+author: eightballer
+version: 0.1.0
+type: contract
+description: The scaffold contract scaffolds a contract to be implemented by the developer.
+license: Apache-2.0
+aea_version: '>=1.0.0, <2.0.0'
+fingerprint:
+  __init__.py: bafybeiaplbxsjgaowmigpnrfffa6t223s6suhd6zrydku7ig45fzdwufku
+  build/pwn_simple_loan.json: bafybeiess5hjeh6i27oyk2ovolrctdsfzd2t2uvtkxq6ixtqotge4ksaui
+  contract.py: bafybeidlols7g3xbo26tc2tewnk4olypx6uze2je7b5uy775ry6rk7rici
+fingerprint_ignore_patterns: []
+class_name: PwnSimpleLoan
+contract_interface_paths:
+  ethereum: build/pwn_simple_loan.json
+dependencies: {}
+contracts: []
