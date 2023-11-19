@@ -19,79 +19,47 @@
 
 """This module contains the scaffold contract definition."""
 
-from typing import Any
 
 from aea.common import JSONLike
-from packages.eightballer.contracts.pwn_simple_loan import PUBLIC_ID
 from aea.contracts.base import Contract
-from aea.crypto.base import LedgerApi, Address
+from aea.crypto.base import LedgerApi
+
+from packages.eightballer.contracts.pwn_simple_loan import PUBLIC_ID
 
 
 class PwnSimpleLoan(Contract):
-    """The scaffold contract class for a smart contract."""
+    """The contract class for the simple loan."""
 
     contract_id = PUBLIC_ID
-
 
     @classmethod
     def min_loan_duration(
         cls,
         ledger_api: LedgerApi,
         contract_address: str,
-        
-        ) -> JSONLike:
+    ) -> JSONLike:
         """Handler method for the 'min_loan_duration' requests."""
         instance = cls.get_instance(ledger_api, contract_address)
         result = instance.functions.MIN_LOAN_DURATION().call()
-        return {
-            'int': result
-        }
-
-
+        return {'int': result}
 
     @classmethod
-    def encode_loan_terms_factory_data(
-        cls,
-        ledger_api: LedgerApi,
-        contract_address: str,
-        offer: tuple
-        ) -> JSONLike:
+    def encode_loan_terms_factory_data(cls, ledger_api: LedgerApi, contract_address: str, offer: tuple) -> JSONLike:
         """Handler method for the 'encode_loan_terms_factory_data' requests."""
         instance = cls.get_instance(ledger_api, contract_address)
         result = instance.functions.encodeLoanTermsFactoryData(offer=offer).call()
-        return {
-            'str': result
-        }
-
-
+        return {'str': result}
 
     @classmethod
-    def get_offer_hash(
-        cls,
-        ledger_api: LedgerApi,
-        contract_address: str,
-        offer: tuple
-        ) -> JSONLike:
+    def get_offer_hash(cls, ledger_api: LedgerApi, contract_address: str, offer: tuple) -> JSONLike:
         """Handler method for the 'get_offer_hash' requests."""
         instance = cls.get_instance(ledger_api, contract_address)
         result = instance.functions.getOfferHash(offer=offer).call()
-        return {
-            'str': result
-        }
-
-
+        return {'str': result}
 
     @classmethod
-    def offers_made(
-        cls,
-        ledger_api: LedgerApi,
-        contract_address: str,
-        var_0: str
-        ) -> JSONLike:
+    def offers_made(cls, ledger_api: LedgerApi, contract_address: str, var_0: str) -> JSONLike:
         """Handler method for the 'offers_made' requests."""
         instance = cls.get_instance(ledger_api, contract_address)
         result = instance.functions.offersMade(var_0).call()
-        return {
-            'bool': result
-        }
-
+        return {'bool': result}
