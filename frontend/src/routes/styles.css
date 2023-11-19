@@ -2,6 +2,7 @@
 html,
 body {
 	@apply h-full overflow-hidden;
+	background: black;
 }
 /* body {
 	background: rgba(var(--color-surface-900) / 1);
@@ -29,6 +30,10 @@ body {
 	background-attachment: fixed;
 	/* background-color: var(--color-bg-1); */
 	background-size: 100vw 100vh;
+}
+
+#page-content {
+	background: #0f1b22;
 }
 
 h1,
