@@ -1,22 +1,22 @@
 {
-  "name": "ai-registry-mech",
+  "name": "collateralisation_station",
   "version": "1.0.0",
-  "description": "Set of Autonolas registries contracts",
+  "description": "Set of Collateralisation Station contracts",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/valory-xyz/ai-registry-mech.git"
+    "url": "git+https://github.com/8ball030/collateralisation_station.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/valory-xyz/ai-registry-mech/issues"
+    "url": "https://github.com/8ball030/collateralisation_station/issues"
   },
-  "homepage": "https://github.com/valory-xyz/ai-registry-mech#readme",
+  "homepage": "https://github.com/8ball030/collateralisation_station#readme",
   "devDependencies": {
     "@gnosis.pm/safe-contracts": "^1.3.0",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.6",

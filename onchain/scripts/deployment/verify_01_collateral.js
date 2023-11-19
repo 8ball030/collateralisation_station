@@ -9,7 +9,7 @@ const aavePoolAddress = parsedData.aavePoolAddress;
 const clipperRouterAddress = parsedData.clipperRouterAddress;
 const daiAddress = parsedData.daiAddress;
 const wethAddress = parsedData.wethAddress;
-const AddressZero = ethers.constants.AddressZero;
+const AddressZero = "0x" + "0".repeat(40);
 
 module.exports = [
     operatorAddress,
