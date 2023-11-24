@@ -30,7 +30,6 @@
 	}
 	.token-row:hover {
 		cursor: pointer;
-		/* background-color: var(--surface2); */
 	}
 	.token-info {
 		display: flex;

@@ -6,9 +6,6 @@
 	import { abi } from '../../../../onchain/abis/Collateral.json';
 	import { waitForTransaction, fetchBalance, sendTransaction } from '@wagmi/core';
 	import { onMount } from 'svelte';
-	import getBalances from '$lib/actions/getBalances';
-
-	import { parseEther } from 'viem';
 
 	let tabSet = 0;
 	let currency = 'USDC';
@@ -42,15 +39,15 @@
 	}
 
 	async function handleDeposit() {
-		console.log('handleDeposit');
-		const { hash } = await sendTransaction({
-			chainId: chainId,
-			to: contractAddress,
-			value: parseEther(valueInput)
-		});
-		// let res = await writeContract(abi, contractAddress, 'deposit', [tokenObj?.address, valueInput]);
-		// console.log('res_', res);
-		data = hash;
+		// send transaction with wallet
+		// const { hash } = await sendTransaction({
+		// 	chainId: chainId,
+		// 	to: contractAddress,
+		// 	value: parseEther(valueInput)
+		// });
+		let res = await writeContract(abi, contractAddress, 'deposit', [tokenObj?.address, valueInput]);
+		console.log('res_', res);
+		data = res?.hash;
 	}
 
 	onMount(async () => {
@@ -103,7 +100,7 @@
 				<button
 					disabled={!valueInput || isLoading}
 					on:click={handleDeposit}
-					class="btn variant-ringed-primary w-full mt-4"
+					class="btn btn-dep w-full mt-4"
 				>
 					{isLoading ? 'Deposit...' : 'Deposit'}
 				</button>
@@ -122,29 +119,25 @@
 </div>
 
 <style>
-	.container {
-		margin: auto;
-		margin-top: 80px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
+	.btn-dep {
+		background: black;
+		color: white;
 	}
-
+	.btn-dep:disabled {
+		background: rgb(170, 170, 170);
+		color: rgb(61, 61, 61);
+	}
 	.tab-text {
 		font-size: 12px;
 		font-weight: 500;
 	}
-
 	.input-wrapper {
 		position: relative;
-		background-color: #e5e7eb;
 		border: 1px solid rgb(34, 39, 46);
 		border-radius: 20px;
 		width: 400px;
 	}
-
 	.input-section {
-		background-color: #e5e7eb;
 		border-radius: 12px;
 		color: grey;
 		font-size: 14px;
@@ -155,7 +148,6 @@
 		padding: 16px;
 		position: relative;
 	}
-
 	.input-section:before {
 		box-sizing: border-box;
 		background-size: 100%;
@@ -169,7 +161,6 @@
 		content: '';
 		border: 0.5px solid grey;
 	}
-
 	.link {
 		padding: 20px;
 		height: 120px;
