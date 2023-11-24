@@ -80,7 +80,7 @@ class CheckAvailableFundsBehaviour(CollateralisationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = CheckAvailableFundsPayload(sender=sender, content=...)
+            payload = CheckAvailableFundsPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -100,7 +100,7 @@ class CheckForLoanRequestsBehaviour(CollateralisationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = CheckForLoanRequestsPayload(sender=sender, content=...)
+            payload = CheckForLoanRequestsPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -120,7 +120,7 @@ class CheckOutstandingLoansBehaviour(CollateralisationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = CheckOutstandingLoansPayload(sender=sender, content=...)
+            payload = CheckOutstandingLoansPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -140,7 +140,7 @@ class CheckValueOfCollateralBehaviour(CollateralisationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = CheckValueOfCollateralPayload(sender=sender, content=...)
+            payload = CheckValueOfCollateralPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -160,7 +160,7 @@ class InitialiseBehaviour(CollateralisationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = InitialisePayload(sender=sender, content=...)
+            payload = InitialisePayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -180,7 +180,7 @@ class PostTransactionBehaviour(CollateralisationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PostTransactionPayload(sender=sender, content=...)
+            payload = PostTransactionPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -200,7 +200,7 @@ class PrepareLiquidationBehaviour(CollateralisationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareLiquidationPayload(sender=sender, content=...)
+            payload = PrepareLiquidationPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -220,7 +220,7 @@ class PrepareLoanOfferBehaviour(CollateralisationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareLoanOfferPayload(sender=sender, content=...)
+            payload = PrepareLoanOfferPayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -240,7 +240,7 @@ class PrepareUpdateBehaviour(CollateralisationStationBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareUpdatePayload(sender=sender, content=...)
+            payload = PrepareUpdatePayload(sender=sender)
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)

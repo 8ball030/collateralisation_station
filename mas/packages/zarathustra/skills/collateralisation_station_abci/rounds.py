@@ -20,7 +20,7 @@
 """This package contains the rounds of CollateralisationStationAbciApp."""
 
 from enum import Enum
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, Optional, Set, Tuple
 
 from packages.valory.skills.abstract_round_abci.base import (
     AbciApp,
@@ -30,8 +30,8 @@ from packages.valory.skills.abstract_round_abci.base import (
     BaseSynchronizedData,
     DegenerateRound,
     EventToTimeout,
+    get_name,
 )
-
 from packages.zarathustra.skills.collateralisation_station_abci.payloads import (
     CheckAvailableFundsPayload,
     CheckForLoanRequestsPayload,
@@ -67,6 +67,11 @@ class SynchronizedData(BaseSynchronizedData):
     This data is replicated by the tendermint application.
     """
 
+    @property
+    def most_voted_tx_hash(self) -> float:
+        """Get the most_voted_tx_hash."""
+        return cast(float, self.db.get_strict("most_voted_tx_hash"))
+
 
 class CheckAvailableFundsRound(AbstractRound):
     """CheckAvailableFundsRound"""
@@ -75,15 +80,10 @@ class CheckAvailableFundsRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.SUFFICIENT_FUNDS
 
     def check_payload(self, payload: CheckAvailableFundsPayload) -> None:
         """Check payload."""
@@ -101,15 +101,10 @@ class CheckForLoanRequestsRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.LOAN_REQUESTS_EXIST
 
     def check_payload(self, payload: CheckForLoanRequestsPayload) -> None:
         """Check payload."""
@@ -127,15 +122,10 @@ class CheckOutstandingLoansRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: CheckOutstandingLoansPayload) -> None:
         """Check payload."""
@@ -153,15 +143,10 @@ class CheckValueOfCollateralRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.OFFERABLE_NFT
 
     def check_payload(self, payload: CheckValueOfCollateralPayload) -> None:
         """Check payload."""
@@ -179,15 +164,10 @@ class InitialiseRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: InitialisePayload) -> None:
         """Check payload."""
@@ -205,15 +185,10 @@ class PostTransactionRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: PostTransactionPayload) -> None:
         """Check payload."""
@@ -231,15 +206,10 @@ class PrepareLiquidationRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: PrepareLiquidationPayload) -> None:
         """Check payload."""
@@ -257,15 +227,10 @@ class PrepareLoanOfferRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.DONE
 
     def check_payload(self, payload: PrepareLoanOfferPayload) -> None:
         """Check payload."""
@@ -283,15 +248,10 @@ class PrepareUpdateRound(AbstractRound):
     payload_attribute = ""  # TODO: update
     synchronized_data_class = SynchronizedData
 
-    # TODO: replace AbstractRound with one of CollectDifferentUntilAllRound,
-    # CollectSameUntilAllRound, CollectSameUntilThresholdRound,
-    # CollectDifferentUntilThresholdRound, OnlyKeeperSendsRound, VotingRound,
-    # from packages/valory/skills/abstract_round_abci/base.py
-    # or implement the methods
-
     def end_block(self) -> Optional[Tuple[BaseSynchronizedData, Enum]]:
         """Process the end of the block."""
-        raise NotImplementedError
+        synchronized_data = self.synchronized_data
+        return synchronized_data, Event.POST_UPDATE
 
     def check_payload(self, payload: PrepareUpdatePayload) -> None:
         """Check payload."""
@@ -324,52 +284,45 @@ class CollateralisationStationAbciApp(AbciApp[Event]):
     initial_round_cls: AppState = InitialiseRound
     initial_states: Set[AppState] = {InitialiseRound, PostTransactionRound}
     transition_function: AbciAppTransitionFunction = {
-        PostTransactionRound: {
-            Event.DONE: PrepareUpdateRound
-        },
-        PrepareUpdateRound: {
-            Event.DONE: PrepareUpdateTxSubmissionRound,
-            Event.POST_UPDATE: CheckOutstandingLoansRound
-        },
+        InitialiseRound: {Event.DONE: CheckOutstandingLoansRound},
+        PostTransactionRound: {Event.DONE: PrepareUpdateRound},
+        PrepareUpdateRound: {Event.DONE: PrepareUpdateTxSubmissionRound, Event.POST_UPDATE: CheckOutstandingLoansRound},
         CheckOutstandingLoansRound: {
             Event.DONE: CheckForLoanRequestsRound,
-            Event.LOAN_NOT_PAID: PrepareLiquidationRound
+            Event.LOAN_NOT_PAID: PrepareLiquidationRound,
         },
-        PrepareLiquidationRound: {
-            Event.DONE: PrepareLiquidationTxSubmissionRound
-        },
+        PrepareLiquidationRound: {Event.DONE: PrepareLiquidationTxSubmissionRound},
         CheckForLoanRequestsRound: {
             Event.ALREADY_OFFERED: FinishedRound,
             Event.NO_LOANS_REQUESTS: FinishedRound,
-            Event.LOAN_REQUESTS_EXIST: CheckAvailableFundsRound
+            Event.LOAN_REQUESTS_EXIST: CheckAvailableFundsRound,
         },
         CheckAvailableFundsRound: {
             Event.SUFFICIENT_FUNDS: CheckValueOfCollateralRound,
-            Event.INSUFFICIENT_FUNDS: FinishedRound
+            Event.INSUFFICIENT_FUNDS: FinishedRound,
         },
-        CheckValueOfCollateralRound: {
-            Event.OFFERABLE_NFT: PrepareLoanOfferRound,
-            Event.WORTHLESS_NFT: FinishedRound
-        },
-        PrepareLoanOfferRound: {
-            Event.DONE: PrepareOfferTxSubmissionRound
-        },
-        InitialiseRound: {},
+        CheckValueOfCollateralRound: {Event.OFFERABLE_NFT: PrepareLoanOfferRound, Event.WORTHLESS_NFT: FinishedRound},
+        PrepareLoanOfferRound: {Event.DONE: PrepareOfferTxSubmissionRound},
         PrepareOfferTxSubmissionRound: {},
         PrepareUpdateTxSubmissionRound: {},
         PrepareLiquidationTxSubmissionRound: {},
-        FinishedRound: {}
+        FinishedRound: {},
     }
-    final_states: Set[AppState] = {PrepareUpdateTxSubmissionRound, PrepareLiquidationTxSubmissionRound, PrepareOfferTxSubmissionRound, FinishedRound}
+    final_states: Set[AppState] = {
+        PrepareUpdateTxSubmissionRound,
+        PrepareLiquidationTxSubmissionRound,
+        PrepareOfferTxSubmissionRound,
+        FinishedRound,
+    }
     event_to_timeout: EventToTimeout = {}
-    cross_period_persisted_keys: Set[str] = []
+    cross_period_persisted_keys: Set[str] = set()
     db_pre_conditions: Dict[AppState, Set[str]] = {
-        InitialiseRound: [],
-    	PostTransactionRound: [],
+        InitialiseRound: {get_name(SynchronizedData.participants)},
+        PostTransactionRound: {get_name(SynchronizedData.participants)},
     }
     db_post_conditions: Dict[AppState, Set[str]] = {
-        PrepareUpdateTxSubmissionRound: [],
-    	PrepareLiquidationTxSubmissionRound: [],
-    	PrepareOfferTxSubmissionRound: [],
-    	FinishedRound: [],
+        PrepareUpdateTxSubmissionRound: {get_name(SynchronizedData.most_voted_tx_hash)},
+        PrepareLiquidationTxSubmissionRound: {get_name(SynchronizedData.most_voted_tx_hash)},
+        PrepareOfferTxSubmissionRound: {get_name(SynchronizedData.most_voted_tx_hash)},
+        FinishedRound: set(),
     }

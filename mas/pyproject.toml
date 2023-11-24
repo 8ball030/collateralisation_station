@@ -29,6 +29,7 @@ autonomy-dev = {extras = ["all"], version = "^0.2.2"}
 pyyaml = "==5.4.1"
 hypothesis = "6.21.6"
 py-ecc = "5.2.0"
+py-eth-sig-utils = "^0.4.0"
 
 
 

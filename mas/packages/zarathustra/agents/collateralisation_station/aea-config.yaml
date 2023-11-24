@@ -21,11 +21,13 @@ protocols:
 - valory/ledger_api:1.0.0:bafybeibo4bdtcrxi2suyzldwoetjar6pqfzm6vt5xal22ravkkcvdmtksi
 - valory/tendermint:0.1.0:bafybeicusvezoqlmyt6iqomcbwaz3xkhk2qf3d56q5zprmj3xdxfy64k54
 skills:
-- zarathustra/collateralisation_station_abci:0.1.0:bafybeidelve2gequojc2qkmvlvjof5dvg7s2aq5r7ehtdsz55of3lmkkjq
+- zarathustra/collateralisation_station_abci:0.1.0:bafybeicttefmcyfetkfcxb6ol3i47pjfs4vhof3sjygu63gme6rgzuhh6i
+- zarathustra/collateralisation_station_chained_abci:0.1.0:bafybeigbdymbw36tbti4k2ketwebuhim6balj7d5wcp2zzctjpb2gw7auq
 - valory/abstract_abci:0.1.0:bafybeiff2dqnkeorf343fmb3547fhiznvdw4ewbwl4rqluek2cv6ibl5hi
-- valory/abstract_round_abci:0.1.0:bafybeifoqz4fs63afcuzf4zjdyn2qu6satezs6kdiakzh7baphzxppeeg4
-- valory/registration_abci:0.1.0:bafybeib4ivf3h237knm4m73c7ymradx45ulgfdfubo7u656laojwmk6isi
-- valory/reset_pause_abci:0.1.0:bafybeietpxftcygnppmghnsegzfrgelx73gbodiefa5isrskgvfv7wgfke
+- valory/abstract_round_abci:0.1.0:bafybeihtkb6s7hzbz2pagh2fg6uqhpaulws5wzigkbgmxj6cqj5omgj6yy
+- valory/transaction_settlement_abci:0.1.0:bafybeieodqxuzohphmgvpfynf34gsxen2445ln547x25earzctodj5epwi
+- valory/registration_abci:0.1.0:bafybeifxgaeezqy6lo2walsiiev7ucsrnn4ajn7qnkdddxw7wbfvxzm6bu
+- valory/reset_pause_abci:0.1.0:bafybeih2mzlnpjzuxpzfak2jzrenoww3ibihcxdnorie3mzgwb2wxw2iqa
 default_ledger: ethereum
 required_ledgers:
 - ethereum

@@ -34,6 +34,8 @@ states:
 - PrepareOfferTxSubmissionRound
 - FinishedRound
 transition_func:
+    (InitialiseRound, DONE): CheckOutstandingLoansRound
+
     (PostTransactionRound, DONE): PrepareUpdateRound
 
     (PrepareUpdateRound, DONE): PrepareUpdateTxSubmissionRound
