@@ -35,11 +35,11 @@
 		chains,
 		projectId: PROJECT_ID
 	});
-	const modal = createWeb3Modal({ wagmiConfig, projectId, chains, themeMode: 'dark' });
+	const modal = createWeb3Modal({ wagmiConfig, projectId: PROJECT_ID, chains, themeMode: 'dark' });
 
 	// TODO: get used from contract
 	let used = 3;
-	let total = 100;
+	let total = 9;
 	let available = total - used;
 	let usedPer = (used / total) * 100;
 	let availablePer = (available / total) * 100;
@@ -68,7 +68,6 @@
 					<h3 class="mt-4">Balances</h3>
 					<div>Available to Lend: ${available}</div>
 					<div>Lent: ${used}</div>
-					<div>Total: ${total}</div>
 					<div class="divider"></div>
 				</div>
 				<div class="mt-4">

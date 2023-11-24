@@ -7,7 +7,7 @@
 	<div class="h-full w-full cnt-top">
 		<img src="/bg.png" class="bg" alt="bg" />
 		<div class="text-right px-4 pt-8 pb-10 text-cnt">
-			<h1 class="text-6xl font-semibold">Collateralization Station</h1>
+			<h1 class="text-6xl font-semibold">COLLATERALIZATION STATION</h1>
 			<p class="text-xl mt-4">Secure, collateralized service loans with</p>
 			<button class="btn variant-ringed-primary w-full mt-6 launch" on:click={launch}
 				>Launch App</button
