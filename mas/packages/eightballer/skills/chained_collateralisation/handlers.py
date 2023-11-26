@@ -18,28 +18,3 @@
 # ------------------------------------------------------------------------------
 
 """This package contains a scaffold of a handler."""
-
-from typing import Optional
-
-from aea.configurations.base import PublicId
-from aea.protocols.base import Message
-from aea.skills.base import Handler
-
-
-class MyScaffoldHandler(Handler):
-    """This class scaffolds a handler."""
-
-    SUPPORTED_PROTOCOL = None  # type: Optional[PublicId]
-
-    def setup(self) -> None:
-        """Implement the setup."""
-
-    def handle(self, message: Message) -> None:
-        """
-        Implement the reaction to an envelope.
-
-        :param message: the message
-        """
-
-    def teardown(self) -> None:
-        """Implement the handler teardown."""

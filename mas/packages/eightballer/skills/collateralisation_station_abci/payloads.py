@@ -28,61 +28,42 @@ from packages.valory.skills.abstract_round_abci.base import BaseTxPayload
 class CheckAvailableFundsPayload(BaseTxPayload):
     """Represent a transaction payload for the CheckAvailableFundsRound."""
 
-    # TODO: define your attributes
-
 
 @dataclass(frozen=True)
 class CheckForLoanRequestsPayload(BaseTxPayload):
     """Represent a transaction payload for the CheckForLoanRequestsRound."""
-
-    # TODO: define your attributes
 
 
 @dataclass(frozen=True)
 class CheckOutstandingLoansPayload(BaseTxPayload):
     """Represent a transaction payload for the CheckOutstandingLoansRound."""
 
-    # TODO: define your attributes
-
 
 @dataclass(frozen=True)
 class CheckValueOfCollateralPayload(BaseTxPayload):
     """Represent a transaction payload for the CheckValueOfCollateralRound."""
-
-    # TODO: define your attributes
 
 
 @dataclass(frozen=True)
 class InitialisePayload(BaseTxPayload):
     """Represent a transaction payload for the InitialiseRound."""
 
-    # TODO: define your attributes
-
 
 @dataclass(frozen=True)
 class PostTransactionPayload(BaseTxPayload):
     """Represent a transaction payload for the PostTransactionRound."""
-
-    # TODO: define your attributes
 
 
 @dataclass(frozen=True)
 class PrepareLiquidationPayload(BaseTxPayload):
     """Represent a transaction payload for the PrepareLiquidationRound."""
 
-    # TODO: define your attributes
-
 
 @dataclass(frozen=True)
 class PrepareLoanOfferPayload(BaseTxPayload):
     """Represent a transaction payload for the PrepareLoanOfferRound."""
 
-    # TODO: define your attributes
-
 
 @dataclass(frozen=True)
 class PrepareUpdatePayload(BaseTxPayload):
     """Represent a transaction payload for the PrepareUpdateRound."""
-
-    # TODO: define your attributes
-

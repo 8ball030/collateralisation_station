@@ -19,23 +19,12 @@
 
 """This package contains payload tests for the CollateralisationStationAbciApp."""
 
-from typing import Type, Hashable
 from dataclasses import dataclass
+from typing import Hashable, Type
 
 import pytest
 
-from packages.eightballer.skills.collateralisation_station_abci.payloads import (
-    BaseTxPayload,
-    CheckAvailableFundsPayload,
-    CheckForLoanRequestsPayload,
-    CheckOutstandingLoansPayload,
-    CheckValueOfCollateralPayload,
-    InitialisePayload,
-    PostTransactionPayload,
-    PrepareLiquidationPayload,
-    PrepareLoanOfferPayload,
-    PrepareUpdatePayload,
-)
+from packages.eightballer.skills.collateralisation_station_abci.payloads import BaseTxPayload
 
 
 @dataclass
@@ -47,7 +36,6 @@ class PayloadTestCase:
     content: Hashable
 
 
-# TODO: provide test cases
 @pytest.mark.parametrize("test_case", [])
 def test_payloads(test_case: PayloadTestCase) -> None:
     """Tests for CollateralisationStationAbciApp payloads"""
@@ -55,4 +43,3 @@ def test_payloads(test_case: PayloadTestCase) -> None:
     payload = test_case.payload_cls(sender="sender", content=test_case.content)
     assert payload.sender == "sender"
     assert payload.from_json(payload.json) == payload
-

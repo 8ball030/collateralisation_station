@@ -19,54 +19,29 @@
 
 """This package contains round behaviours of CollateralisationStationAbciApp."""
 
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Hashable, Optional, Type
-from dataclasses import dataclass, field
 
 import pytest
 
-from packages.valory.skills.abstract_round_abci.base import AbciAppDB
-from packages.valory.skills.abstract_round_abci.behaviours import (
-    AbstractRoundBehaviour,
-    BaseBehaviour,
-    make_degenerate_behaviour,
-)
 from packages.eightballer.skills.collateralisation_station_abci.behaviours import (
-    CollateralisationStationBaseBehaviour,
-    CollateralisationStationRoundBehaviour,
     CheckAvailableFundsBehaviour,
     CheckForLoanRequestsBehaviour,
     CheckOutstandingLoansBehaviour,
     CheckValueOfCollateralBehaviour,
+    CollateralisationStationBaseBehaviour,
+    CollateralisationStationRoundBehaviour,
     InitialiseBehaviour,
     PostTransactionBehaviour,
     PrepareLiquidationBehaviour,
     PrepareLoanOfferBehaviour,
     PrepareUpdateBehaviour,
 )
-from packages.eightballer.skills.collateralisation_station_abci.rounds import (
-    SynchronizedData,
-    DegenerateRound,
-    Event,
-    CollateralisationStationAbciApp,
-    CheckAvailableFundsRound,
-    CheckForLoanRequestsRound,
-    CheckOutstandingLoansRound,
-    CheckValueOfCollateralRound,
-    FinishedRound,
-    InitialiseRound,
-    PostTransactionRound,
-    PrepareLiquidationRound,
-    PrepareLiquidationTxSubmissionRound,
-    PrepareLoanOfferRound,
-    PrepareOfferTxSubmissionRound,
-    PrepareUpdateRound,
-    PrepareUpdateTxSubmissionRound,
-)
-
-from packages.valory.skills.abstract_round_abci.test_tools.base import (
-    FSMBehaviourBaseCase,
-)
+from packages.eightballer.skills.collateralisation_station_abci.rounds import Event, SynchronizedData
+from packages.valory.skills.abstract_round_abci.base import AbciAppDB
+from packages.valory.skills.abstract_round_abci.behaviours import BaseBehaviour
+from packages.valory.skills.abstract_round_abci.test_tools.base import FSMBehaviourBaseCase
 
 
 @dataclass
@@ -120,17 +95,14 @@ class BaseCollateralisationStationTest(FSMBehaviourBaseCase):
 class TestCheckAvailableFundsBehaviour(BaseCollateralisationStationTest):
     """Tests CheckAvailableFundsBehaviour"""
 
-    # TODO: set next_behaviour_class
     behaviour_class: Type[BaseBehaviour] = CheckAvailableFundsBehaviour
     next_behaviour_class: Type[BaseBehaviour] = ...
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: BehaviourTestCase) -> None:
         """Run tests."""
 
         self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
         # self.mock_ ...
         self.complete(test_case.event)
 
@@ -138,17 +110,14 @@ class TestCheckAvailableFundsBehaviour(BaseCollateralisationStationTest):
 class TestCheckForLoanRequestsBehaviour(BaseCollateralisationStationTest):
     """Tests CheckForLoanRequestsBehaviour"""
 
-    # TODO: set next_behaviour_class
     behaviour_class: Type[BaseBehaviour] = CheckForLoanRequestsBehaviour
     next_behaviour_class: Type[BaseBehaviour] = ...
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: BehaviourTestCase) -> None:
         """Run tests."""
 
         self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
         # self.mock_ ...
         self.complete(test_case.event)
 
@@ -156,17 +125,14 @@ class TestCheckForLoanRequestsBehaviour(BaseCollateralisationStationTest):
 class TestCheckOutstandingLoansBehaviour(BaseCollateralisationStationTest):
     """Tests CheckOutstandingLoansBehaviour"""
 
-    # TODO: set next_behaviour_class
     behaviour_class: Type[BaseBehaviour] = CheckOutstandingLoansBehaviour
     next_behaviour_class: Type[BaseBehaviour] = ...
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: BehaviourTestCase) -> None:
         """Run tests."""
 
         self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
         # self.mock_ ...
         self.complete(test_case.event)
 
@@ -174,17 +140,14 @@ class TestCheckOutstandingLoansBehaviour(BaseCollateralisationStationTest):
 class TestCheckValueOfCollateralBehaviour(BaseCollateralisationStationTest):
     """Tests CheckValueOfCollateralBehaviour"""
 
-    # TODO: set next_behaviour_class
     behaviour_class: Type[BaseBehaviour] = CheckValueOfCollateralBehaviour
     next_behaviour_class: Type[BaseBehaviour] = ...
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: BehaviourTestCase) -> None:
         """Run tests."""
 
         self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
         # self.mock_ ...
         self.complete(test_case.event)
 
@@ -192,17 +155,14 @@ class TestCheckValueOfCollateralBehaviour(BaseCollateralisationStationTest):
 class TestInitialiseBehaviour(BaseCollateralisationStationTest):
     """Tests InitialiseBehaviour"""
 
-    # TODO: set next_behaviour_class
     behaviour_class: Type[BaseBehaviour] = InitialiseBehaviour
     next_behaviour_class: Type[BaseBehaviour] = ...
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: BehaviourTestCase) -> None:
         """Run tests."""
 
         self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
         # self.mock_ ...
         self.complete(test_case.event)
 
@@ -210,17 +170,14 @@ class TestInitialiseBehaviour(BaseCollateralisationStationTest):
 class TestPostTransactionBehaviour(BaseCollateralisationStationTest):
     """Tests PostTransactionBehaviour"""
 
-    # TODO: set next_behaviour_class
     behaviour_class: Type[BaseBehaviour] = PostTransactionBehaviour
     next_behaviour_class: Type[BaseBehaviour] = ...
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: BehaviourTestCase) -> None:
         """Run tests."""
 
         self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
         # self.mock_ ...
         self.complete(test_case.event)
 
@@ -228,17 +185,14 @@ class TestPostTransactionBehaviour(BaseCollateralisationStationTest):
 class TestPrepareLiquidationBehaviour(BaseCollateralisationStationTest):
     """Tests PrepareLiquidationBehaviour"""
 
-    # TODO: set next_behaviour_class
     behaviour_class: Type[BaseBehaviour] = PrepareLiquidationBehaviour
     next_behaviour_class: Type[BaseBehaviour] = ...
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: BehaviourTestCase) -> None:
         """Run tests."""
 
         self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
         # self.mock_ ...
         self.complete(test_case.event)
 
@@ -246,17 +200,14 @@ class TestPrepareLiquidationBehaviour(BaseCollateralisationStationTest):
 class TestPrepareLoanOfferBehaviour(BaseCollateralisationStationTest):
     """Tests PrepareLoanOfferBehaviour"""
 
-    # TODO: set next_behaviour_class
     behaviour_class: Type[BaseBehaviour] = PrepareLoanOfferBehaviour
     next_behaviour_class: Type[BaseBehaviour] = ...
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: BehaviourTestCase) -> None:
         """Run tests."""
 
         self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
         # self.mock_ ...
         self.complete(test_case.event)
 
@@ -264,17 +215,13 @@ class TestPrepareLoanOfferBehaviour(BaseCollateralisationStationTest):
 class TestPrepareUpdateBehaviour(BaseCollateralisationStationTest):
     """Tests PrepareUpdateBehaviour"""
 
-    # TODO: set next_behaviour_class
     behaviour_class: Type[BaseBehaviour] = PrepareUpdateBehaviour
     next_behaviour_class: Type[BaseBehaviour] = ...
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: BehaviourTestCase) -> None:
         """Run tests."""
 
         self.fast_forward(test_case.initial_data)
-        # TODO: mock the necessary calls
         # self.mock_ ...
         self.complete(test_case.event)
-

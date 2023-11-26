@@ -19,45 +19,27 @@
 
 """This package contains the tests for rounds of CollateralisationStation."""
 
-from typing import Any, Type, Dict, List, Callable, Hashable, Mapping
 from dataclasses import dataclass, field
+from typing import Any, Callable, Dict, Hashable, List, Mapping, Type
 
 import pytest
 
-from packages.eightballer.skills.collateralisation_station_abci.payloads import (
-    CheckAvailableFundsPayload,
-    CheckForLoanRequestsPayload,
-    CheckOutstandingLoansPayload,
-    CheckValueOfCollateralPayload,
-    InitialisePayload,
-    PostTransactionPayload,
-    PrepareLiquidationPayload,
-    PrepareLoanOfferPayload,
-    PrepareUpdatePayload,
-)
 from packages.eightballer.skills.collateralisation_station_abci.rounds import (
     AbstractRound,
-    Event,
-    SynchronizedData,
     CheckAvailableFundsRound,
     CheckForLoanRequestsRound,
     CheckOutstandingLoansRound,
     CheckValueOfCollateralRound,
+    Event,
     InitialiseRound,
     PostTransactionRound,
     PrepareLiquidationRound,
     PrepareLoanOfferRound,
     PrepareUpdateRound,
+    SynchronizedData,
 )
-from packages.valory.skills.abstract_round_abci.base import (
-    BaseTxPayload,
-)
-from packages.valory.skills.abstract_round_abci.test_tools.rounds import (
-    BaseRoundTestClass,
-    BaseOnlyKeeperSendsRoundTest,
-    BaseCollectDifferentUntilThresholdRoundTest,
-    BaseCollectSameUntilThresholdRoundTest,
- )
+from packages.valory.skills.abstract_round_abci.base import BaseTxPayload
+from packages.valory.skills.abstract_round_abci.test_tools.rounds import BaseRoundTestClass
 
 
 @dataclass
@@ -94,7 +76,7 @@ class BaseCollateralisationStationRoundTest(BaseRoundTestClass):
         )
 
         self._complete_run(
-            self._test_round(
+            self._test_round(  # pylint: disable=no-member
                 test_round=test_round,
                 round_payloads=test_case.payloads,
                 synchronized_data_update_fn=lambda sync_data, _: sync_data.update(**test_case.final_data),
@@ -110,7 +92,6 @@ class TestCheckAvailableFundsRound(BaseCollateralisationStationRoundTest):
 
     round_class = CheckAvailableFundsRound
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: RoundTestCase) -> None:
         """Run tests."""
@@ -123,7 +104,6 @@ class TestCheckForLoanRequestsRound(BaseCollateralisationStationRoundTest):
 
     round_class = CheckForLoanRequestsRound
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: RoundTestCase) -> None:
         """Run tests."""
@@ -136,7 +116,6 @@ class TestCheckOutstandingLoansRound(BaseCollateralisationStationRoundTest):
 
     round_class = CheckOutstandingLoansRound
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: RoundTestCase) -> None:
         """Run tests."""
@@ -149,7 +128,6 @@ class TestCheckValueOfCollateralRound(BaseCollateralisationStationRoundTest):
 
     round_class = CheckValueOfCollateralRound
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: RoundTestCase) -> None:
         """Run tests."""
@@ -162,7 +140,6 @@ class TestInitialiseRound(BaseCollateralisationStationRoundTest):
 
     round_class = InitialiseRound
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: RoundTestCase) -> None:
         """Run tests."""
@@ -175,7 +152,6 @@ class TestPostTransactionRound(BaseCollateralisationStationRoundTest):
 
     round_class = PostTransactionRound
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: RoundTestCase) -> None:
         """Run tests."""
@@ -188,7 +164,6 @@ class TestPrepareLiquidationRound(BaseCollateralisationStationRoundTest):
 
     round_class = PrepareLiquidationRound
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: RoundTestCase) -> None:
         """Run tests."""
@@ -201,7 +176,6 @@ class TestPrepareLoanOfferRound(BaseCollateralisationStationRoundTest):
 
     round_class = PrepareLoanOfferRound
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: RoundTestCase) -> None:
         """Run tests."""
@@ -214,10 +188,8 @@ class TestPrepareUpdateRound(BaseCollateralisationStationRoundTest):
 
     round_class = PrepareUpdateRound
 
-    # TODO: provide test cases
     @pytest.mark.parametrize("test_case", [])
     def test_run(self, test_case: RoundTestCase) -> None:
         """Run tests."""
 
         self.run_test(test_case)
-

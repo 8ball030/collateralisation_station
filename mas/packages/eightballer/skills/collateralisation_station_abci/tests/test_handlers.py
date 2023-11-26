@@ -19,9 +19,7 @@
 
 """Test the handlers.py module of the CollateralisationStation."""
 
-import packages.eightballer.skills.collateralisation_station_abci.handlers  # noqa
-
 
 def test_import() -> None:
     """Test that the 'handlers.py' of the CollateralisationStation can be imported."""
-
+    import packages.eightballer.skills.collateralisation_station_abci.handlers  # noqa

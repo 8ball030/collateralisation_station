@@ -22,37 +22,31 @@
 from abc import ABC
 from typing import Generator, Set, Type, cast
 
-from packages.valory.skills.abstract_round_abci.base import AbstractRound
-from packages.valory.skills.abstract_round_abci.behaviours import (
-    AbstractRoundBehaviour,
-    BaseBehaviour,
-)
-
 from packages.eightballer.skills.collateralisation_station_abci.models import Params
 from packages.eightballer.skills.collateralisation_station_abci.rounds import (
-    SynchronizedData,
-    CollateralisationStationAbciApp,
-    CheckAvailableFundsRound,
-    CheckForLoanRequestsRound,
-    CheckOutstandingLoansRound,
-    CheckValueOfCollateralRound,
-    InitialiseRound,
-    PostTransactionRound,
-    PrepareLiquidationRound,
-    PrepareLoanOfferRound,
-    PrepareUpdateRound,
-)
-from packages.eightballer.skills.collateralisation_station_abci.rounds import (
     CheckAvailableFundsPayload,
+    CheckAvailableFundsRound,
     CheckForLoanRequestsPayload,
+    CheckForLoanRequestsRound,
     CheckOutstandingLoansPayload,
+    CheckOutstandingLoansRound,
     CheckValueOfCollateralPayload,
+    CheckValueOfCollateralRound,
+    CollateralisationStationAbciApp,
     InitialisePayload,
+    InitialiseRound,
     PostTransactionPayload,
+    PostTransactionRound,
     PrepareLiquidationPayload,
+    PrepareLiquidationRound,
     PrepareLoanOfferPayload,
+    PrepareLoanOfferRound,
     PrepareUpdatePayload,
+    PrepareUpdateRound,
+    SynchronizedData,
 )
+from packages.valory.skills.abstract_round_abci.base import AbstractRound
+from packages.valory.skills.abstract_round_abci.behaviours import AbstractRoundBehaviour, BaseBehaviour
 
 
 class CollateralisationStationBaseBehaviour(BaseBehaviour, ABC):
@@ -74,13 +68,14 @@ class CheckAvailableFundsBehaviour(CollateralisationStationBaseBehaviour):
 
     matching_round: Type[AbstractRound] = CheckAvailableFundsRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = CheckAvailableFundsPayload(sender=sender, content=...)
+            payload = CheckAvailableFundsPayload(
+                sender=sender,
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -94,13 +89,14 @@ class CheckForLoanRequestsBehaviour(CollateralisationStationBaseBehaviour):
 
     matching_round: Type[AbstractRound] = CheckForLoanRequestsRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = CheckForLoanRequestsPayload(sender=sender, content=...)
+            payload = CheckForLoanRequestsPayload(
+                sender=sender,
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -114,13 +110,14 @@ class CheckOutstandingLoansBehaviour(CollateralisationStationBaseBehaviour):
 
     matching_round: Type[AbstractRound] = CheckOutstandingLoansRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = CheckOutstandingLoansPayload(sender=sender, content=...)
+            payload = CheckOutstandingLoansPayload(
+                sender=sender,
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -134,13 +131,14 @@ class CheckValueOfCollateralBehaviour(CollateralisationStationBaseBehaviour):
 
     matching_round: Type[AbstractRound] = CheckValueOfCollateralRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = CheckValueOfCollateralPayload(sender=sender, content=...)
+            payload = CheckValueOfCollateralPayload(
+                sender=sender,
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -154,13 +152,14 @@ class InitialiseBehaviour(CollateralisationStationBaseBehaviour):
 
     matching_round: Type[AbstractRound] = InitialiseRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = InitialisePayload(sender=sender, content=...)
+            payload = InitialisePayload(
+                sender=sender,
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -174,13 +173,14 @@ class PostTransactionBehaviour(CollateralisationStationBaseBehaviour):
 
     matching_round: Type[AbstractRound] = PostTransactionRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PostTransactionPayload(sender=sender, content=...)
+            payload = PostTransactionPayload(
+                sender=sender,
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -194,13 +194,14 @@ class PrepareLiquidationBehaviour(CollateralisationStationBaseBehaviour):
 
     matching_round: Type[AbstractRound] = PrepareLiquidationRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareLiquidationPayload(sender=sender, content=...)
+            payload = PrepareLiquidationPayload(
+                sender=sender,
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -214,13 +215,14 @@ class PrepareLoanOfferBehaviour(CollateralisationStationBaseBehaviour):
 
     matching_round: Type[AbstractRound] = PrepareLoanOfferRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareLoanOfferPayload(sender=sender, content=...)
+            payload = PrepareLoanOfferPayload(
+                sender=sender,
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -234,13 +236,14 @@ class PrepareUpdateBehaviour(CollateralisationStationBaseBehaviour):
 
     matching_round: Type[AbstractRound] = PrepareUpdateRound
 
-    # TODO: implement logic required to set payload content for synchronization
     def async_act(self) -> Generator:
         """Do the act, supporting asynchronous execution."""
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            payload = PrepareUpdatePayload(sender=sender, content=...)
+            payload = PrepareUpdatePayload(
+                sender=sender,
+            )
 
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
@@ -263,5 +266,5 @@ class CollateralisationStationRoundBehaviour(AbstractRoundBehaviour):
         PostTransactionBehaviour,
         PrepareLiquidationBehaviour,
         PrepareLoanOfferBehaviour,
-        PrepareUpdateBehaviour
+        PrepareUpdateBehaviour,
     ]

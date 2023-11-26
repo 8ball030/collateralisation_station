@@ -1,9 +1,9 @@
 {
     "dev": {
-        "skill/eightballer/chained_collateralisation/0.1.0": "bafybeifnnp5gfpumqbam6heuys7xz5uyn4kye53x6ffpgxtsqnru7uezge",
-        "skill/eightballer/collateralisation_station_abci/0.1.0": "bafybeihbpg2d5ti3oepnbmgjvi63emkznmqvtxa4kflxjbicngi7h2jkhu",
+        "skill/eightballer/chained_collateralisation/0.1.0": "bafybeibq4tvyminzoa4j2niapv637lefumoxbfwgge7i6pcskp7ratfyou",
+        "skill/eightballer/collateralisation_station_abci/0.1.0": "bafybeig4hs62um763flmnlkjp3jlc3lm5fgtc2rtpzj3w7qz27eyusj6ki",
         "contract/eightballer/pwn_simple_loan/0.1.0": "bafybeig6mou3bnnyjnbyaijvuseukvu47jahofzkzrsajsowdcpc6jjeui",
-        "agent/eightballer/collateralisation_station/0.1.0": "bafybeie3biowhzqogoe5iit7vwahrrux6c5cl7b53y4k3zcoe2acy4gb7i"
+        "agent/eightballer/collateralisation_station/0.1.0": "bafybeiatic7fa4fhoz4iobwggh2una6r4q34ibq4pihpixrlcyku55gcam"
     },
     "third_party": {
         "protocol/valory/abci/0.1.0": "bafybeig3dj5jhsowlvg3t73kgobf6xn4nka7rkttakdb2gwsg5bp7rt7q4",
