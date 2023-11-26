@@ -1,0 +1,30 @@
+name: chained_collateralisation
+author: eightballer
+version: 0.1.0
+type: skill
+description: The scaffold skill is a scaffold for your own skill implementation.
+license: Apache-2.0
+aea_version: '>=1.0.0, <2.0.0'
+fingerprint:
+  __init__.py: bafybeib7s4inrj2ucutalpncc2omvea3xhrzqejs6srr2scek5dm5ncefq
+  behaviours.py: bafybeifvepdd24kudqiysgzl42grllipnx3srmkjudrqvhqdyc3nhjivbq
+  handlers.py: bafybeifw257iquoxxdtst7rfaccupkdlk4m6ht2huviaphe6qru4ts5oea
+  my_model.py: bafybeicvv4xmsfan67vr4hdx5aoju3wxzol4yjxns57egj6opke4mha6c4
+fingerprint_ignore_patterns: []
+connections: []
+contracts: []
+protocols: []
+skills: []
+behaviours:
+  scaffold:
+    args:
+      foo: bar
+    class_name: MyScaffoldBehaviour
+handlers: {}
+models:
+  scaffold:
+    args:
+      foo: bar
+    class_name: MyModel
+dependencies: {}
+is_abstract: false

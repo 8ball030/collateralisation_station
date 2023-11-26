@@ -1,0 +1,64 @@
+name: prometheus
+author: eightballer
+version: 0.1.0
+type: skill
+description: The scaffold skill is a scaffold for your own skill implementation.
+license: Apache-2.0
+aea_version: '>=1.0.0, <2.0.0'
+fingerprint:
+  __init__.py: bafybeicb4zxa7sqqthjbymmltkgbruhyom5f57pdqihofzjmxshy363dd4
+  behaviours.py: bafybeif7ocxtxgdktz7z7qlxtg2vseriwodl44zskh6c45rqnzvrcjk7he
+  dialogues.py: bafybeie3xb34cqpduqweolbg7z5cxc7plhmb4luwj7kzv4yvrzgrqijvzq
+  handlers.py: bafybeiahrmpglubxvqohomjwr5zu4w4hun2dfmto76xmex4cs5uwp4sk3i
+  my_model.py: bafybeig4f5jcqu532lq45fez6phbntlnlco4dkpox7sgrsyjli3ozd5a3m
+fingerprint_ignore_patterns: []
+connections:
+- eightballer/prometheus:0.1.1:bafybeibc5x4ldgtl7jrgz4vjtbm3o6bf2zeyfsa47vftbpeszotl3x2knm
+contracts: []
+protocols:
+- eightballer/http:0.1.0:bafybeibels7dv7ucflaeniwifbisvkegm5vrarrr5ctkcqebg4t7onba6a
+- eightballer/prometheus:1.0.0:bafybeidg56u4eza6z3pqkpcqw5cvobjar6azi5yko4joaosb2ev5buqrdq
+skills: []
+behaviours:
+  prometheus_behaviour:
+    args: {}
+    class_name: PrometheusBehaviour
+handlers:
+  prometheus_handler:
+    args: {}
+    class_name: PrometheusHandler
+models:
+  data_request_model:
+    args:
+      body: ''
+      decimals: 5
+      method: GET
+      outputs: []
+      url: ''
+    class_name: DataRequestModel
+  http_dialogues:
+    args: {}
+    class_name: HttpDialogues
+  prometheus_dialogues:
+    args:
+      enabled: true
+      metrics:
+      - name: num_retrievals
+        type: Gauge
+        description: Number of data retrievals
+        labels: {}
+      - name: num_requests
+        type: Gauge
+        description: Number of data requests served
+        labels: {}
+      - name: memory_usage
+        type: Gauge
+        description: Memory usage of the agent
+        labels: {}
+      - name: cpu_usage
+        type: Gauge
+        description: CPU usage of the agent
+        labels: {}
+    class_name: PrometheusDialogues
+dependencies: {}
+is_abstract: false
