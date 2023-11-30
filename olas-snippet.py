@@ -6,12 +6,13 @@ from eth_account.messages import encode_defunct, SignableMessage, encode_structu
 from eth_keys import keys
 import web3
 import web3.contract
-from web3 import Web3
+from web3 import Web3, Account
+from pathlib import Path
 
 # change this
 WEB_PROVIDER_URL = "https://mainnet.infura.io/v3/a89d9c9e36b44b19be2a812587205eee"
-API_BASE_URL = "https://api-staging.pwn.xyz/api/v1/"
-OFFER_CONTRACT_ABI_FILE_PATH = "/Users/dev/PycharmProjects/pwn_backend_py/pwn_backend_py/loan/v_1/contract_artefacts/v1.1/PWNSimpleLoanSimpleOffer.json"
+API_BASE_URL = "https://api.pwn.xyz/api/v1/"
+OFFER_CONTRACT_ABI_FILE_PATH = "mas/packages/eightballer/contracts/pwn_simple_loan/build/pwn_simple_loan.json"
 
 # no need to change this inshallah
 CHAIN_ID = 1
@@ -19,26 +20,29 @@ DAI_CONTRACT_ADDRESS = Web3.to_checksum_address("0x6b175474e89094c44da98b954eede
 OFFER_CONTRACT_ADDRESS = Web3.to_checksum_address("0x5E551f09b8d1353075A1FF3B484Ee688aCAc02F6")
 LOAN_REQUEST_CONTRACT_ADDRESS = Web3.to_checksum_address("0x9Cb87eC6448299aBc326F32d60E191Ef32Ab225D")
 LOAN_CONTRACT_ADDRESS = Web3.to_checksum_address("0x50160ff9c19fbE2B5643449e1A321cAc15af2b2C")
-TEST_AUTH_WALLET_PRIVATE_KEY = Web3.keccak(os.urandom(4096))
+
+ETH_KEYPATH = "mas/ethereum_private_key.txt"
+DEFAULT_ENCODING = "utf-8"
+
+account = Account.from_key(Path(ETH_KEYPATH).read_text(DEFAULT_ENCODING))
+
+print("Using account: ", account.address)
+
+TEST_AUTH_WALLET_PRIVATE_KEY = bytes.fromhex(account.key.hex()[2:])
 
 # loan data defaults
-LOAN_AMOUNT_WEI = 10**20
-LOAN_YIELD_WEI = 10**19
+LOAN_AMOUNT_WEI = 10**16
+LOAN_YIELD_WEI = 10**16
 LOAN_DURATION_SECONDS = 30 * 86400
 LOAN_VALIDITY_DAYS = 7
 
+w3 = Web3(Web3.HTTPProvider(WEB_PROVIDER_URL))
 
 def get_contract_class(address):
     with open(OFFER_CONTRACT_ABI_FILE_PATH) as abi_file:
-        abi = json.load(abi_file)
+        abi = json.load(abi_file)['abi']
 
-    w3 = Web3(Web3.HTTPProvider(WEB_PROVIDER_URL))
-
-    contract = web3.contract.ContractCaller(
-        w3=w3,
-        abi=abi,
-        address=address,
-    )
+    contract = w3.eth.contract(address=address, abi=abi)
     return contract
 
 
@@ -55,12 +59,17 @@ def get_loan_requests(
         collateral_address_filter: str | None = None,
 ):
     url = f"{API_BASE_URL}loan/loan/network/{chain_id}/{loan_request_contract_address}/"
-    if collateral_address_filter is not None:
-        url = f"{url}?collateral_address={collateral_address_filter}"
+    # url += "?is_revoked=false&limit=10&order_by=-id&shit_filter_on=false"
+
+    url = "https://api.pwn.xyz/api/v1/loan/loan/network/1/?is_revoked=false&limit=1&order_by=-id&shit_filter_on=false"
+    # if collateral_address_filter is not None:
+    #     url = f"{url}?collateral_address={w3.toChecksumAddress(collateral_address_filter)}"
+    
 
     response = requests.get(
         url,
     )
+    print(url)
     return response.json()["results"]
 
 
@@ -150,7 +159,7 @@ def post_loan(
     contract = get_contract_class(offer_contract_address)
 
     offer_hash = Web3.to_hex(
-        primitive=contract.getOfferHash(
+        primitive=contract.functions.getOfferHash(
             (
                 offer_struct["collateralCategory"],
                 offer_struct["collateralAddress"],
@@ -166,7 +175,7 @@ def post_loan(
                 offer_struct["isPersistent"],
                 offer_struct["nonce"],
             )
-        )
+        ).call()
     )
 
     signature = Web3().eth.account.sign_message(
@@ -220,10 +229,12 @@ def login(chain_id, private_key: bytes):
 
 
 if __name__ == "__main__":
-    loan_requests = get_loan_requests(1, LOAN_CONTRACT_ADDRESS, "0xc3f733ca98E0daD0386979Eb96fb1722A1A05E69")
+    # loan_requests = get_loan_requests(1, LOAN_CONTRACT_ADDRESS, "0xc3f733ca98E0daD0386979Eb96fb1722A1A05E69")
+    loan_requests = get_loan_requests(1, LOAN_CONTRACT_ADDRESS, w3.toChecksumAddress("0x15bd56669f57192a97df41a2aa8f4403e9491776"))
     wallet_address, access_token = login(CHAIN_ID, TEST_AUTH_WALLET_PRIVATE_KEY)
 
     for lr in loan_requests:
+        print(lr["id"])
         offer_hash, response = post_loan(
             private_key=TEST_AUTH_WALLET_PRIVATE_KEY,
             chain_id=CHAIN_ID,
@@ -241,4 +252,4 @@ if __name__ == "__main__":
             collateral_amount=1,
             offer_expiration_timestamp=int((datetime.now(tz=timezone.utc) + timedelta(days=LOAN_VALIDITY_DAYS)).timestamp()),
         )
-        print(f"{offer_hash}: {response.status}, {response.text}")
+        print(f"{offer_hash}: {response.status_code}, {response.text}")
