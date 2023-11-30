@@ -1,4 +1,3 @@
-<!-- Swap.svelte -->
 <script>
 	import { getLogo } from '$lib/config/tokens';
 	import CurrencySearch from '$lib/components/CurrencySearch.svelte';
@@ -13,9 +12,7 @@
 
 	let modalOpen = false;
 
-	const handleClick = () => {
-		modalOpen = true;
-	};
+	const handleClick = () => (modalOpen = true);
 
 	const handleCurrencySelect = (selectedCurrency) => {
 		onCurrencySelect(selectedCurrency);
@@ -64,8 +61,7 @@
 		height: 80px;
 		padding: 20px;
 		transition: height 1s ease;
-		border: 1px solid #ae85a2;
-		background-color: #e5e7eb;
+		border: 1px solid #29a10a;
 		color: rgb(73, 74, 84);
 	}
 	.input-row {
@@ -77,7 +73,6 @@
 	}
 	.currency-select {
 		align-items: center;
-		background-color: #e5e7eb;
 		opacity: 1;
 		box-shadow: 5px 5px 5px #4d384842;
 		color: white;
