@@ -1,0 +1,69 @@
+name: balance_metrics
+author: eightballer
+version: 0.1.0
+type: skill
+description: This skill allows the agent to publish its balances to a prometheus server.
+  This allows for monitoring of the agent's balances over time.
+license: Apache-2.0
+aea_version: '>=1.0.0, <2.0.0'
+fingerprint:
+  __init__.py: bafybeig6ccpss2phq7uoj6jnco2xxh4rswtspxpxo3yk4papv7j4d2o5eu
+  behaviours.py: bafybeicde7pumpgwsron63rerkvlluaapzk4gzx53k55kdkcbl6sog37cm
+  dialogues.py: bafybeie2nmx4aucby7fy6yl6rzroubybcltvj5qlhkizxlrm6rrk5hio4q
+  handlers.py: bafybeie2jcumsevx6w5f42j3n4p25xltk7fxp4oufszdft3kloygzew72i
+  strategy.py: bafybeifyx6cqzbvxba6yuhqgvffzis6kjgd644gswazgnreubfjsjiismy
+  tests/test_dialogues.py: bafybeicsgx4k2r3g4nw6rrt34mp2z4dj3ddzd3nljwf4yqzynwujccdpdq
+fingerprint_ignore_patterns: []
+connections:
+- valory/ledger:0.19.0:bafybeicgfupeudtmvehbwziqfxiz6ztsxr5rxzvalzvsdsspzz73o5fzfi
+contracts:
+- eightballer/erc_20:0.1.0:bafybeihzyver74cyqzngkzicirjnrphg464hzsyflngosrda7ickmvapzi
+protocols:
+- valory/contract_api:1.0.0:bafybeidv6wxpjyb2sdyibnmmum45et4zcla6tl63bnol6ztyoqvpl4spmy
+- valory/ledger_api:1.0.0:bafybeibo4bdtcrxi2suyzldwoetjar6pqfzm6vt5xal22ravkkcvdmtksi
+skills:
+- eightballer/prometheus:0.1.0:bafybeif4evjhwa3ac5bdojqs2gi7pvr6evnnwml2gsopktdnc6fx3vr5tu
+behaviours:
+  balance_polling_behaviour:
+    args:
+      tick_interval: 10
+    class_name: BalancePollingBehaviour
+handlers:
+  contract_api_handler:
+    args: {}
+    class_name: ContractApiHandler
+  ledger_api_handler:
+    args: {}
+    class_name: LedgerApiHandler
+  prometheus_handler:
+    args: {}
+    class_name: PrometheusHandler
+models:
+  balance_metrics_strategy:
+    args:
+      ledger_ids:
+      - ethereum
+      prometheus_enabled: true
+      token_addresses: {}
+    class_name: BalanceMetricsStrategy
+  contract_api_dialogues:
+    args: {}
+    class_name: ContractApiDialogues
+  ledger_api_dialogues:
+    args: {}
+    class_name: LedgerApiDialogues
+  prometheus_dialogues:
+    args:
+      enabled: true
+      metrics:
+      - name: memory_usage
+        type: Gauge
+        description: Memory usage of the agent
+        labels: {}
+      - name: cpu_usage
+        type: Gauge
+        description: CPU usage of the agent
+        labels: {}
+    class_name: PrometheusDialogues
+dependencies: {}
+is_abstract: false

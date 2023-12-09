@@ -49,3 +49,8 @@ token_id-"component_id"
 153-skill/eightballer/balance_metrics/0.1.0
 154-skill/eightballer/faucet/0.1.0
 155-contract/eightballer/pwn_simple_loan/0.1.0
+# collateralisation-station
+163-skill/eightballer/collateralisation_station_abci/0.1.0
+164-skill/eightballer/chained_collateralisation/0.1.0
+24-agent/eightballer/collateralisation_station/0.1.0
+?-service/eightballer/collateralisation_station/0.1.0

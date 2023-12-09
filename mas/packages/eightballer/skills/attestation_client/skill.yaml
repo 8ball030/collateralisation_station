@@ -1,0 +1,38 @@
+name: attestation_client
+author: eightballer
+version: 0.1.0
+type: skill
+description: The attestation client skill is a skill that allows an agent to reply
+  to attestations from the attestor.
+license: Apache-2.0
+aea_version: '>=1.0.0, <2.0.0'
+fingerprint:
+  __init__.py: bafybeia6dv5uro4dcdqtctzfkgiggyf74mn6ujtuq3u3sr273zxl7kncv4
+  dialogues.py: bafybeigffvr7lms3z7u77exvvz4kavc24dxs6qs4fw2gjis2unyuippili
+  handlers.py: bafybeigv4muedz4y5454ovcjz6fvn36bp247dbaau2ghd2enfbpvg4jhiu
+  readme.md: bafybeifrbvyzvkyyy4oxtwhqytucb3y6wxue4xskcd5l3swunocap6wese
+  strategy.py: bafybeidx63utj3avltxm3dhsfgh5sd3rtgc7hboh7gsfpbe6kkdowrokua
+fingerprint_ignore_patterns: []
+connections: []
+contracts: []
+protocols:
+- valory/tendermint:0.1.0:bafybeicusvezoqlmyt6iqomcbwaz3xkhk2qf3d56q5zprmj3xdxfy64k54
+skills:
+- valory/abstract_round_abci:0.1.0:bafybeihlcferdpjhcorbrgp3zplikxkuxmlx3x7mc4g5sjxxm2mgzryfia
+behaviours: {}
+handlers:
+  tendermint:
+    args: {}
+    class_name: AttestationTendermintHandler
+models:
+  attestation_strategy:
+    args:
+      attestor_addresses:
+      - '0x8bA1141B3ebA8205961a29B343aA42178B83C813'
+      enabled: false
+    class_name: AttestationClientModel
+  tendermint_dialogues:
+    args: {}
+    class_name: TendermintDialogues
+dependencies: {}
+is_abstract: true
