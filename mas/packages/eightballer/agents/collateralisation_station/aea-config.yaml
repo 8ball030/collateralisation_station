@@ -2,7 +2,8 @@ agent_name: collateralisation_station
 author: eightballer
 version: 0.1.0
 license: Apache-2.0
-description: ''
+description: The collateralisation station agent is a multi agent system that enables
+  the collateralisation of Autonolas NFT's
 aea_version: '>=1.35.0, <2.0.0'
 fingerprint: {}
 fingerprint_ignore_patterns: []
@@ -31,8 +32,8 @@ protocols:
 skills:
 - eightballer/attestation_client:0.1.0:bafybeialjjtzmbvj26gqakjrzjkzrrb5sela6srw2pauwsmhgj4ocdnkca
 - eightballer/balance_metrics:0.1.0:bafybeifxd3e5wlgibwcyarcvkd5qvlxx7ecoq7bnk732kw7tp4hbrjmui4
-- eightballer/chained_collateralisation:0.1.0:bafybeibq4tvyminzoa4j2niapv637lefumoxbfwgge7i6pcskp7ratfyou
-- eightballer/collateralisation_station_abci:0.1.0:bafybeig4hs62um763flmnlkjp3jlc3lm5fgtc2rtpzj3w7qz27eyusj6ki
+- eightballer/chained_collateralisation:0.1.0:bafybeiarbei7cgqscf3yqwg7yq2ujjh4ergroecp6czqcu5nxjeldsx3tu
+- eightballer/collateralisation_station_abci:0.1.0:bafybeidp7jbjr7fiqi3tcbv6qboj7nz2ghoqklras62izwkjvtjzbjhqjm
 - eightballer/prometheus:0.1.0:bafybeif4evjhwa3ac5bdojqs2gi7pvr6evnnwml2gsopktdnc6fx3vr5tu
 - valory/abstract_abci:0.1.0:bafybeiff2dqnkeorf343fmb3547fhiznvdw4ewbwl4rqluek2cv6ibl5hi
 - valory/abstract_round_abci:0.1.0:bafybeihlcferdpjhcorbrgp3zplikxkuxmlx3x7mc4g5sjxxm2mgzryfia

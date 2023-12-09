@@ -66,7 +66,10 @@ test:
 all: fmt lint test hashes
 
 metadata:
-	adev metadata generate . contract/eightballer/pwn_simple_loan/0.1.0 01
-	adev -v metadata validate mints/01.json
+	adev metadata generate . contract/eightballer/pwn_simple_loan/0.1.0 01 && adev -v metadata validate mints/01.json
+	adev metadata generate . skill/eightballer/collateralisation_station_abci/0.1.0 02 && adev -v metadata validate mints/02.json
+	adev metadata generate . skill/eightballer/chained_collateralisation/0.1.0 03 && adev -v metadata validate mints/03.json
+	adev metadata generate . agent/eightballer/collateralisation_station/0.1.0 04 && adev -v metadata validate mints/04.json
+	adev metadata generate . service/eightballer/collateralisation_station/0.1.0 05 && adev -v metadata validate mints/05.json
 
 

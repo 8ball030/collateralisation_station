@@ -1,0 +1,11 @@
+name: collateralisation_station
+author: eightballer
+version: 0.1.0
+description: An agent service to provide collateralisation of Autonolas NFT's
+aea_version: '>=1.0.0, <2.0.0'
+license: Apache-2.0
+fingerprint: {}
+fingerprint_ignore_patterns: []
+agent: eightballer/collateralisation_station:0.1.0:bafybeiedemxzhv5syzuz4pt7fnwnhv6nzrlg3wnbgocgeows3w3jhwvb7a
+number_of_agents: 1
+deployment: {}

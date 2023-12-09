@@ -2,7 +2,8 @@ name: chained_collateralisation
 author: eightballer
 version: 0.1.0
 type: skill
-description: The scaffold skill is a scaffold for your own skill implementation.
+description: The chained collateralisation skill chains together the necessary components
+  to enable the collateralisation of Autonolas NFT's
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
