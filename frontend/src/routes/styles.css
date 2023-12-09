@@ -33,7 +33,8 @@ body {
 }
 
 #page-content {
-	background: #0f1b22;
+	background: white;
+	color: black;
 }
 
 h1,

@@ -440,6 +440,7 @@ contract Collateral is ERC721TokenReceiver {
         uint256 balance = address(this).balance;
         if (amount > 0 && balance >= amount) {
             debt -= amount;
+            mapDepositorBalances[msg.sender] = 0;
             (bool success, ) = msg.sender.call{value: amount}("");
 
             if (!success) {
